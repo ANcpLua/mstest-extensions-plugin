@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mstest-extensions",
+  "version": "1.0.0",
+  "description": "Create and verify MSTest tests and extensions using the consumer's resolved APIs, with guidance for discovery, execution, assertions and resource ownership.",
+  "author": { "name": "ANcpLua" },
+  "repository": "https://github.com/ANcpLua/mstest-extensions-skill",
+  "keywords": ["mstest", "dotnet", "testing", "extensions", "discovery"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "MSTest Extensions",
+        "shortDescription": "Build MSTest extensions",
+        "longDescription": "Implement MSTest data providers, custom assertions, execution attributes and fixtures using version-matched API evidence. Verify real discovery, source navigation, failure behavior and resource ownership.",
+        "developerName": "ANcpLua",
+        "category": "Productivity",
+        "capabilities": [],
+        "defaultPrompt": "Use the MSTest Extensions skill to implement and verify a testing capability in this project's installed MSTest version."
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ namespace MSTestExtensionSamples;
 
 public sealed record ReadCase(string Name, int ChunkSize);
 
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Method)]
 public sealed class ReadCasesAttribute : Attribute, ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
@@ -47,7 +47,7 @@ public sealed class DataExtensionTests(TestContext context)
         const string payload = "fragmented 🧪 payload";
         var encoding = new System.Text.UTF8Encoding(includeBom);
         byte[] bytes = [.. encoding.GetPreamble(), .. encoding.GetBytes(payload)];
-        using var source = new PausedReadStream(bytes, bufferSize);
+        await using var source = new PausedReadStream(bytes, bufferSize);
         source.Resume();
         using var reader = new StreamReader(source, encoding, true, bufferSize, leaveOpen: true);
 
@@ -64,7 +64,7 @@ public sealed class DataExtensionTests(TestContext context)
         var second = provider.GetData(method).ToArray();
 
         Assert.AreSequenceEqual(
-            new[] { "single-byte", "fragmented", "whole-buffer" },
+            ["single-byte", "fragmented", "whole-buffer"],
             first.Select(row => ((ReadCase)row[0]!).Name));
         Assert.AreSequenceEqual(first.Select(row => provider.GetDisplayName(method, row)),
             second.Select(row => provider.GetDisplayName(method, row)));

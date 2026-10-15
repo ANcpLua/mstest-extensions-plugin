@@ -21,7 +21,7 @@ public sealed class BrokenOutputTestMethodAttribute(
     protected override void Append(TestResult result, string text) => throw new IOException("output broke");
 }
 
-[TestClass]
+[ComposedTestClass]
 public sealed class FailureProbes
 {
     private bool _initialized;

@@ -1,6 +1,6 @@
 # MSTest extensions skill
 
-A portable skill for implementing MSTest data providers, combinatorial inputs,
+A portable plugin containing one skill for implementing MSTest data providers, combinatorial inputs,
 assertions, execution attributes, conditions/retries, fixtures and test filters.
 It routes runner, hosting and source-generation work to the relevant APIs.
 
@@ -35,6 +35,26 @@ hosting, built-in diagnostics and MTP changes. These are dated evidence, not a
 hardcoded support ceiling or guarantees for future releases.
 
 ## Installation
+
+The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
+which packages the skill and its references without an MCP server or external
+service dependency. Its skill permits automatic invocation for relevant MSTest
+code work. Selection is still the agent's decision; configuration is not a
+measured triggering guarantee.
+
+Build an account-upload archive with:
+
+```sh
+python3 scripts/package_plugin.py --output /tmp/mstest-extensions.zip
+```
+
+The archive contains `plugin.json` and `skills/mstest-extensions` only. Upload it
+through Plugin Creator, then install the returned plugin in the intended account.
+After confirming installation, remove a duplicate standalone installation of
+the same skill from that host's discovery directory. Keep one active source.
+
+For clients using standalone skill directories, the following remains an
+alternative installation path:
 
 Python 3.10+ and directory symlink support are required for the helper scripts.
 The skill's prose can also be copied into another Agent Skills-compatible client.
@@ -73,8 +93,8 @@ not claim compatibility until that version's checks pass.
 
 | SDK / framework / adapter | MTP | Passing examples | Verified runner probes |
 | --- | --- | ---: | ---: |
-| 4.4.1 | 2.4.1 | 28 | 5 |
-| 4.5.1 | 2.5.1 | 30 | 5 |
+| 4.4.1 | 2.4.1 | 31 | 5 |
+| 4.5.1 | 2.5.1 | 33 | 5 |
 
 The two additional 4.5.1 cases verify inline and dynamic `ArgumentsDisplayName`
 through discovered names and executed arguments. Their source is conditionally
@@ -82,6 +102,23 @@ compiled because 4.4.1 lacks those APIs. Shared examples cover custom data,
 assertion rejection, conditions, execution attributes, diagnostic failure,
 async suspension/cancellation and per-row resource isolation. Recommended MSTest
 analyzers remain enabled and warnings are errors.
+
+A real child-runner discovery check verifies file/line navigation for declared
+method attributes and tests with a class-created execution wrapper. Navigation
+comes from the original declared attribute; the wrapper factory copies no caller
+metadata and requires no `ExplicitCallerInfoArgument` suppression. The failure
+probe project references the example assembly, exercising the same extension
+implementation rather than compiling another copy.
+
+For JetBrains inspections after tests have compiled the projects:
+
+```sh
+jb inspectcode MSTestExtensions.slnx --no-build --severity=SUGGESTION --format=Xml --output=artifacts/inspections.xml --properties=Configuration=Release --no-updates
+```
+
+The solution includes the intentionally failing probe executable; use the
+verifiers above for execution rather than treating a whole-solution test
+failure as an unexpected regression.
 
 The probe executable deliberately returns exit 2: three failures must preserve
 their original messages, one result is inconclusive, and one condition skips its

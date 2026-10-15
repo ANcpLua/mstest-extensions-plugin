@@ -4,10 +4,12 @@
 
 For the async invocation API checked in 4.4.1 and 4.5.1, derive from
 `TestMethodAttribute` and override
-`Task<TestResult[]> ExecuteAsync(ITestMethod testMethod)`. Forward caller file and
-line information from the custom attribute constructor to the base constructor
-when preserving source navigation. Prefer `await base.ExecuteAsync(testMethod)`
-for a wrapper. If manually invoking once, use
+`Task<TestResult[]> ExecuteAsync(ITestMethod testMethod)`. For an attribute written
+on a test method, expose optional `[CallerFilePath]` / `[CallerLineNumber]`
+constructor parameters and forward those parameters to the base constructor.
+The compiler captures the attribute's declaration site for discovery.
+Prefer `await base.ExecuteAsync(testMethod)` for a method-level wrapper.
+If manually invoking once, use
 `await testMethod.InvokeAsync(testMethod.Arguments)` and return its result.
 
 Never invoke `MethodInfo` directly: that bypasses MSTest's invocation handling.
@@ -27,6 +29,40 @@ the provided attribute so a method's own execution semantics survive; blindly
 returning a new base attribute erases them. Use built-in STA attributes when
 supported and needed instead of inventing a synchronization context or executor.
 Verify platform support and continuation affinity separately.
+
+### Source navigation belongs to discovery
+
+Distinguish the declared test attribute from a wrapper created by
+`GetTestMethodAttribute` for execution. In the inspected adapter, discovery
+(`TypeEnumerator`) takes the source file and line from the **original declared
+attribute**. MTP's node conversion exposes that location. The class-level
+execution wrapper is created later and does not control navigation metadata.
+
+Construct it with the behavior/dependencies it needs:
+
+```csharp
+public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute original)
+    => new ExecutionWrapperAttribute(original);
+```
+
+Do not pass `original.DeclaringFilePath` / `original.DeclaringLineNumber` into
+that factory call solely to preserve IDE navigation. Do not add a ReSharper
+`ExplicitCallerInfoArgument` suppression or an inspection exception to support
+that unnecessary copy. Let optional caller parameters take their normal values;
+retain constructor-to-base forwarding where the attribute/analyzer contract
+requires it. An attribute actually declared on a test still needs its own
+declaration-site capture.
+
+Verify navigation through the real runner's JSON discovery output
+(`--list-tests json` on the checked MTP versions), comparing `location.file`,
+`lineStart`, and `lineEnd` with the original method attribute. A unit test that
+only checks copied properties on a wrapper does not establish IDE navigation.
+Keep testing original invocation semantics and failed results separately.
+Recheck the adapter's discovery/conversion path when version evidence changes.
+
+This distinction was verified in the
+[architecture prototype correction](https://github.com/ANcpLua/mstest-architecture-prototype/commit/3d4acd28d28385455cde31b3d119d6b4f3a4ff04)
+and is exercised by this repository's runner regression.
 
 Check built-in assertion-failure diagnostics in the resolved version before
 creating a capture wrapper; see [known version changes](version-notes.md).

@@ -44,10 +44,10 @@ def main():
             (workspace / "global.json").write_text(json.dumps(config, indent=2) + "\n")
             command = ["dotnet", "test", "--project", "examples/MSTestExtensionSamples", "-c", "Release"]
             discovery = execute(command + ["--list-tests"], workspace, evidence / "discovery.log")
-            count = 30 if tuple(map(int, version.split("-", 1)[0].split("."))) >= (4, 5, 1) else 28
+            count = 33 if tuple(map(int, version.split("-", 1)[0].split("."))) >= (4, 5, 1) else 31
             if not re.search(rf"Discovered {count} tests\.", discovery):
                 raise SystemExit(f"Expected {count} discovered cases for {version}; see {evidence}")
-            if count == 30:
+            if count == 33:
                 for display in ["Inline_label_keeps_method_name (inline-label)",
                                 "Dynamic_label_keeps_method_name (dynamic-label)"]:
                     if display not in discovery:

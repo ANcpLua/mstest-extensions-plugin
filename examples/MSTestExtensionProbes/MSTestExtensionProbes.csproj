@@ -10,6 +10,6 @@
     <EnableMicrosoftTestingExtensionsTrxReport>true</EnableMicrosoftTestingExtensionsTrxReport>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../MSTestExtensionSamples/DiagnosticTestMethodAttribute.cs" Link="DiagnosticTestMethodAttribute.cs" />
+    <ProjectReference Include="../MSTestExtensionSamples/MSTestExtensionSamples.csproj" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ public sealed class SuspensionTests(TestContext context)
     public async Task Copy_resumes_without_disposing_source(ReadCase scenario)
     {
         byte[] bytes = "payload after suspension 🧪"u8.ToArray();
-        using var source = new PausedReadStream(bytes, scenario.ChunkSize);
+        await using var source = new PausedReadStream(bytes, scenario.ChunkSize);
         using var destination = new MemoryStream();
         var copying = source.CopyToAsync(destination, context.CancellationToken);
         bool wasPending;
@@ -30,7 +30,7 @@ public sealed class SuspensionTests(TestContext context)
     [Timeout(10_000, CooperativeCancellation = true)]
     public async Task Cancellation_joins_the_copy_before_disposal()
     {
-        using var source = new PausedReadStream([1, 2, 3], 1);
+        await using var source = new PausedReadStream([1, 2, 3], 1);
         using var destination = new MemoryStream();
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(context.CancellationToken);
         var copying = source.CopyToAsync(destination, cancellation.Token);
@@ -65,7 +65,7 @@ public sealed class SuspensionTests(TestContext context)
         var original = new AssertFailedException("observation failed");
         var observed = await Assert.ThrowsExactlyAsync<AssertFailedException>(async () =>
         {
-            using (source)
+            await using (source)
             {
                 copying = source.CopyToAsync(destination, context.CancellationToken);
                 try

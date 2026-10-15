@@ -70,6 +70,9 @@ Discovery and data enumeration must not acquire live resources. Preserve result
 arrays, original failures, data-row arguments, and lifecycle behavior when
 wrapping execution. Scope experimental API acknowledgments to the specific code
 that requires them; do not disable analyzers project-wide to make an example fit.
+For class-created execution wrappers, source navigation comes from discovery of
+the original test attribute. Use the [execution guidance](references/execution.md)
+before copying caller metadata or adding an inspection suppression.
 
 An `ITestDataSource` is a runtime data provider. MSTest source generation is a
 separate runner/discovery feature. An `Assert.That` extension is an ordinary C#
