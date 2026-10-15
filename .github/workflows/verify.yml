@@ -1,0 +1,41 @@
+name: Verify skill and MSTest APIs
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mstest_version:
+        description: Exact additional MSTest.Sdk version to verify
+        required: false
+        type: string
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate helpers and links
+        run: |
+          python3 scripts/test_inspect.py
+          python3 scripts/test_install.py
+          python3 scripts/check_links.py
+          git diff --check
+      - name: Verify recorded versions
+        run: python3 scripts/verify_versions.py 4.4.1 4.5.1
+      - name: Verify requested version
+        if: inputs.mstest_version != ''
+        env:
+          MSTEST_REQUESTED_VERSION: ${{ inputs.mstest_version }}
+        run: python3 scripts/verify_versions.py "$MSTEST_REQUESTED_VERSION"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mstest-verification
+          path: artifacts/compatibility/
