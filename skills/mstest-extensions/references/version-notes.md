@@ -43,5 +43,6 @@ Relevant 4.5.1 changes:
 Sources: [upstream framework API at the package commit](https://github.com/microsoft/testfx/blob/0bf77e3aedbf86f1fa16220bc951d3b52ba56763/src/TestFramework/TestFramework/PublicAPI/PublicAPI.Shipped.txt),
 the [API delta](https://github.com/ANcpLua/MSTest-4.4.1/blob/591f0cda03de14f908a337f97b114f764704dd68/delta/4.5.1/api.md),
 and [release summary](https://github.com/ANcpLua/MSTest-4.4.1/blob/591f0cda03de14f908a337f97b114f764704dd68/delta/4.5.1/changelog.md).
-Executable checks and limits are recorded in the repository README. Optional
-hosting, Native AOT and model evaluation are not implied by these API notes.
+Executable checks and limits are recorded in the repository README and the
+[packaged capability evidence](executable-evidence.md), refreshed on 16 October
+2026. API notes alone do not establish hosting, Native AOT or model evaluation.

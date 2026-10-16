@@ -10,6 +10,7 @@ discovers and executes isolated copies; no separate build is needed:
 
 ```sh
 python3 scripts/verify_versions.py 4.4.1 4.5.1
+python3 skills/mstest-extensions/scripts/verify_capabilities.py --mstest-sdk 4.5.1 --hosting --native-aot
 python3 scripts/test_inspect.py
 python3 scripts/test_install.py
 python3 scripts/check_links.py

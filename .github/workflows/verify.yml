@@ -29,6 +29,10 @@ jobs:
           git diff --check
       - name: Verify recorded versions
         run: python3 scripts/verify_versions.py 4.4.1 4.5.1
+      - name: Install the Native AOT toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+      - name: Verify runner, hosting and published consumers
+        run: python3 skills/mstest-extensions/scripts/verify_capabilities.py --mstest-sdk 4.5.1 --hosting --native-aot
       - name: Verify requested version
         if: inputs.mstest_version != ''
         env:
@@ -38,4 +42,6 @@ jobs:
         if: always()
         with:
           name: mstest-verification
-          path: artifacts/compatibility/
+          path: |
+            artifacts/compatibility/
+            artifacts/mstest-capabilities/

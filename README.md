@@ -38,7 +38,7 @@ hardcoded support ceiling or guarantees for future releases.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 1.0.1 permits automatic invocation for relevant
+service dependency. Version 1.1.0 permits automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
 record actual selection and navigation behavior separately from the example
@@ -128,11 +128,30 @@ body. The verifier checks every outcome in TRX. Logs and reports stay in ignored
 `artifacts/`; raw local paths, package caches and test outputs are not installed
 or published with the skill.
 
-These deterministic checks cover the examples under the JIT. They do not
-establish optional hosting, Windows UI, Native AOT, every custom retry/filter
-implementation, model answer quality, or automatic skill selection. The
-fresh-chat evaluations above record individual installed-host requests; they do
-not establish trigger reliability across models, prompts, or hosts.
+The plugin also packages an isolated capability verifier and its fixtures:
+
+```sh
+python3 skills/mstest-extensions/scripts/verify_capabilities.py --mstest-sdk 4.5.1 --hosting --native-aot
+```
+
+It verifies seven discovered runner-policy cases across six real child runs:
+run/skip/drop, CLI selection before the provider, a throwing filter, retry
+recovery/exhaustion and cooperative cancellation joined before cleanup. Three
+hosted case identities use four distinct scopes across two data rows and a retry;
+async disposal follows cleanup, and every controller/worker host is disposed.
+The managed and osx-arm64 Native AOT published consumers each execute six cases:
+five pass and one deliberate typed-value rejection preserves its original
+failure. Generated invocation, original discovery locations, exact Int64 data
+arguments and async lifecycle ordering are checked independently. The full
+[evidence contract](skills/mstest-extensions/references/executable-evidence.md)
+keeps versions, entrypoints and limits separate.
+
+These checks cover the stated fixtures. They do not establish optional hosting
+under AOT, Windows UI, browser execution, arbitrary custom attributes or every
+retry/filter policy. The direct executable checks do not claim to fix the
+separate official MSBuild/TRX controller limitation. Fresh-chat evaluations above
+record individual 1.0.1 installed-host requests; they do not establish model
+quality or trigger reliability for 1.1.0 across models, prompts or hosts.
 
 ## Sources
 

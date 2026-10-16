@@ -66,7 +66,7 @@ Read only the reference that applies to the requested capability.
 ## Implement with MSTest semantics
 
 Keep data descriptions immutable and create mutable resources per execution.
-Discovery and data enumeration must not acquire live resources. Preserve result
+Discovery and data enumeration must not acquire per-invocation resources. Optional hosting can bootstrap a root host even for discovery; keep its startup bounded and verify it creates no invocation scopes. Preserve result
 arrays, original failures, data-row arguments, and lifecycle behavior when
 wrapping execution. Scope experimental API acknowledgments to the specific code
 that requires them; do not disable analyzers project-wide to make an example fit.
@@ -100,3 +100,9 @@ Report the commands, discovered/executed cases, and remaining limits. Keep model
 content evaluations, automatic skill selection, compilation, runner execution,
 and Native AOT publication as separate evidence. Repository-specific commands and
 test baselines belong in the project instructions, outside this portable skill.
+
+For executable checks of retry/filter outcomes, optional host scope disposal, or
+published source-generated and Native AOT consumers, use the packaged
+[capability verifier](references/executable-evidence.md). It runs isolated
+fixtures with explicit versions; it does not change the consumer's packages or
+establish compatibility for untested extension shapes.

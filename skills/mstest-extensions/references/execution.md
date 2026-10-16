@@ -124,3 +124,9 @@ Sources: [execution control](https://learn.microsoft.com/en-us/dotnet/core/testi
 [SDK](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-sdk),
 and version-matched `ITestMethod`, `ConditionBaseAttribute`, `RetryResult`, and
 `TestFilterProviderAttribute` in [source routes](sources.md).
+
+The packaged [runner evidence](executable-evidence.md) checks these contracts
+through the actual executable and TRX, including a throwing filter and joined
+cooperative cancellation on each bounded retry attempt. A recoverable failed
+attempt, an exhausted retry and a cancelled invocation are separate outcomes.
+Do not retry a cancelled operation indefinitely or turn its failure into a skip.

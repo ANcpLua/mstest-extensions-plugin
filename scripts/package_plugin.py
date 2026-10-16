@@ -1,4 +1,4 @@
-"""Package the portable plugin with its skill, excluding examples and local outputs."""
+"""Package the skill and its executable fixtures, excluding local outputs."""
 import argparse
 import json
 from pathlib import Path
@@ -26,7 +26,7 @@ def main():
     for path in sorted(skill.rglob("*")):
         if path.is_symlink():
             raise SystemExit(f"Symlinks cannot be packaged: {path}")
-        if path.is_file() and "__pycache__" not in path.parts and path.suffix in {".md", ".yaml", ".py"}:
+        if path.is_file() and not {"__pycache__", "bin", "obj", "artifacts"}.intersection(path.parts) and path.suffix in {".md", ".yaml", ".py", ".cs", ".csproj", ".props", ".json"}:
             files.append(path)
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:

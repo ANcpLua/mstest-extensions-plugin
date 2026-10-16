@@ -56,7 +56,10 @@ inheritance, provider discovery, and reflection-dependent plugins need their own
 compatibility evidence.
 
 For an AOT claim, publish for the actual target RID and execute the published
-artifact. A green JIT run is not that evidence. Preserve generator warnings
+artifact. A green JIT run is not that evidence. The packaged
+[published-consumer verifier](executable-evidence.md) keeps generated sources,
+discovery locations, full reports and the executed binary hash. Its direct
+invocation assertion distinguishes generated execution from reflection fallback. Preserve generator warnings
 unless a specific limitation is understood and explicitly scoped; example
 projects demonstrating diagnostics are not templates for blanket suppression.
 

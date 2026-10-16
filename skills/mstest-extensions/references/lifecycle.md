@@ -33,8 +33,12 @@ Resolve the optional hosting package independently. In the inspected 4.5.1
 release family, `AddMSTestTestClassInjection` connects a caller-owned host's
 services to test-class construction, with a separate scope per invocation, row,
 and retry. Ordinary test initialization/cleanup still applies. The application
-owns the root host; the integration owns the invocation scope. Verify service
-disposal after cleanup and isolation using a real host when implementing this.
+owns the root host; the integration owns the invocation scope. The checked MTP
+controller and worker each call the host factory, and discovery can bootstrap
+a host too. Do not assume one host across all processes or allocate invocation
+services during discovery. Verify each process's host lifetime and await scoped
+async disposal after cleanup. The packaged [real-host probe](executable-evidence.md)
+checks data-row and retry isolation with this ownership boundary.
 
 The inspected integration is experimental and excludes source generation,
 Native AOT and browser/AOT execution. Confirm current constraints and diagnostics
