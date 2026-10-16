@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mstest-extensions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create and verify MSTest tests and extensions using the consumer's resolved APIs, with guidance for discovery, execution, assertions and resource ownership.",
   "author": { "name": "ANcpLua" },
   "repository": "https://github.com/ANcpLua/mstest-extensions-skill",
