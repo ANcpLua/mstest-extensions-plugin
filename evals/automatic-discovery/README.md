@@ -2,6 +2,9 @@
 
 This is a host evaluation of the installed plugin, separate from the deterministic
 sample suite. The prompt and starter project stay outside the packaged skill.
+The original run below kept account memory enabled. A separate
+[memory-disabled run](without-memory.md) checks selection and navigation without
+that context.
 The method follows the official guidance to inspect activation, supporting
 resource use, and output quality in a new conversation with the plugin enabled:
 [Build skills](https://developers.openai.com/plugins/build/skills) and

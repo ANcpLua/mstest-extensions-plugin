@@ -39,8 +39,9 @@ hardcoded support ceiling or guarantees for future releases.
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
 service dependency. Version 1.0.1 permits automatic invocation for relevant
-MSTest code work. A [fresh-chat evaluation](evals/automatic-discovery/README.md)
-records actual selection and navigation behavior separately from the example
+MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
+including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
+record actual selection and navigation behavior separately from the example
 suite. Selection remains the agent's decision on each request.
 
 Build an account-upload archive with:
@@ -130,8 +131,8 @@ or published with the skill.
 These deterministic checks cover the examples under the JIT. They do not
 establish optional hosting, Windows UI, Native AOT, every custom retry/filter
 implementation, model answer quality, or automatic skill selection. The
-fresh-chat evaluation above measures one installed-host request; it does not
-establish trigger reliability across models, prompts, or hosts.
+fresh-chat evaluations above record individual installed-host requests; they do
+not establish trigger reliability across models, prompts, or hosts.
 
 ## Sources
 
