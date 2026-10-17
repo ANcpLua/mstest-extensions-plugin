@@ -1,13 +1,14 @@
 ---
 name: mstest-extensions
 description: >-
-  Plan, explain, implement, review, or troubleshoot MSTest tests and extensions:
+  Plan, explain, implement, review, or troubleshoot reusable MSTest extensions:
   custom data attributes, combinatorial providers, assertions, execution
   attributes, conditions, fixtures, and test filters. Use for MSTest extension
   design, API questions, conceptual planning before a project or package version
-  is selected, unit/integration/end-to-end test composition, shared test support,
-  and migration to MSTest. Ordinary application changes and running
-  an unchanged test command are outside this workflow.
+  is selected, shared test support and native execution composition. Concrete
+  test-method edits, report-only test-quality reviews and dedicated Native AOT
+  or Qyl telemetry work have focused sibling skills. Ordinary application
+  changes and running an unchanged test command are outside this workflow.
 ---
 
 # MSTest testing and extensions
@@ -103,8 +104,7 @@ failure policy. Read [execution](references/execution.md) and
 Use published framework or domain constants for fixed contract strings. Define
 shared named constants for owned keys, event names, configuration settings,
 resource identifiers and diagnostic markers instead of repeating literals. Keep
-typed enum selectors typed: `RuleFamily.Dependencies` is an enum member, not a
-string constant. Pass it directly to a typed attribute constructor; do not replace
+typed enum selectors typed: an enum member is not a string constant. Pass it directly to a typed attribute constructor; do not replace
 it with a string or `.ToString()`. Use `nameof` for member/type references. Keep distinct adversarial inputs distinct;
 do not normalize test values or create a second catalog of published constants.
 See [constant strings](references/execution.md#constant-strings-and-contracts).

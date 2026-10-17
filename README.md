@@ -1,15 +1,27 @@
 # MSTest Extensions plugin
 
-A portable plugin containing one skill for implementing MSTest data providers, combinatorial inputs,
-assertions, execution attributes, conditions/retries, fixtures and test filters.
-It routes runner, hosting and source-generation work to the relevant APIs.
+A portable plugin with nine focused skills for native MSTest testing. Choose the
+workflow matching the request; references load only when that task needs them.
+The native baseline is **MSTest 4.5.1 / Microsoft.Testing.Platform 2.5.1**.
+MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 
-Start at [SKILL.md](skills/mstest-extensions/SKILL.md). The package contains one
-skill, 12 reference documents, scripts and executable assets. References support
-the skill and load when relevant; they are not separate skills. Keep workflows
-together while their user goal and activation conditions agree, and split them
-when their triggers, inputs or success criteria differ. See the official
-[skill guidance](https://developers.openai.com/plugins/build/skills).
+| Skill | Use it for |
+| --- | --- |
+| [mstest-extensions](skills/mstest-extensions/SKILL.md) | Reusable data, assertions, execution composition, policies and fixtures. |
+| [mstest-writing-tests](skills/mstest-writing-tests/SKILL.md) | Concrete test, assertion, row and lifecycle edits. |
+| [mstest-test-review](skills/mstest-test-review/SKILL.md) | Practical report-only correctness and maintainability review. |
+| [mstest-test-smells](skills/mstest-test-smells/SKILL.md) | A requested formal test-smell taxonomy audit. |
+| [mstest-test-value](skills/mstest-test-value/SKILL.md) | Evidence for an identified change and revision. |
+| [mstest-assertion-review](skills/mstest-assertion-review/SKILL.md) | Focused report-only analysis of assertion meaning. |
+| [mstest-test-gaps](skills/mstest-test-gaps/SKILL.md) | Caller-visible outcomes the current tests would miss. |
+| [mstest-native-aot](skills/mstest-native-aot/SKILL.md) | Generated invocation, trimming and published Native AOT consumers. |
+| [mstest-qyl-telemetry](skills/mstest-qyl-telemetry/SKILL.md) | Qyl public instrumentation and concrete telemetry contracts. |
+
+The package includes 13 shared references, scripts and executable assets.
+Skills have separate triggers and outputs; they do not load all siblings for
+every test request. This follows the official
+[skill and plugin guidance](https://learn.chatgpt.com/docs/skills-and-plugins?site_locale=en)
+and [focused skill guidance](https://learn.chatgpt.com/docs/build-skills?site_locale=en).
 
 The repository is `mstest-extensions-plugin`; the stable plugin identifier and
 skill name remain `mstest-extensions`. The display name is **MSTest Extensions**.
@@ -45,27 +57,30 @@ hardcoded support ceiling or guarantees for future releases.
 
 ## Current maintenance
 
-The skill integrates six review topics:
-smell detection, practical anti-pattern review, MSTest writing, test-value
-evidence, assertion quality and gap analysis. The
+The six adapted test workflows use native MSTest APIs rather than transferring
+another framework's execution or fixture assumptions. Their shared
 [quality reference](skills/mstest-extensions/references/test-quality.md) separates
-static findings from executed proof and avoids assertion quotas, unnecessary
-seams and blanket objections to shared fixtures or integration workflows.
-The [telemetry reference](skills/mstest-extensions/references/telemetry-contracts.md)
-covers capture, ingestion, persistence and read-time privacy; native span
-ownership; independent rows with shared publication; and artifact-specific
-Native AOT evidence. It applies the captured-field phase lessons without
-turning project-specific packages into universal dependencies.
+static findings, possible gaps and executed evidence without assertion quotas.
 
-Existing native cancellation, version-resolved APIs, original-result
-preservation and resource ownership guidance remains in place. Required
-preconditions must be asserted, structured values must retain their types, and
-typed enum selectors remain distinct from shared string constants.
-The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
-sequential versus concurrent work, shared versus per-invocation cancellation,
-and generated-discovery versus executed Native AOT evidence explicit.
+[Failure-prevention lessons](skills/mstest-extensions/references/failure-prevention.md)
+turn capture/conversion/privacy findings into reusable examples of likely agent
+mistakes. They are independent of the original phase plan and project-specific
+scenario names. [Protocol examples](skills/mstest-extensions/references/telemetry-contracts.md)
+remain available when that boundary is in scope.
 
-Checkpoint (2026-10-17): account plugin 3.2.0 is saved and read back: all 28
+The AOT workflow distinguishes generated discovery, direct invocation, managed
+fallback and actual Native AOT execution. The Qyl workflow uses the public
+`AddQyl` host setup, published conventions and receiver types. It preserves Qyl's
+legitimate internal SDK instrumentation ownership rather than introducing a
+second consumer pipeline. Neither skill silently upgrades consumer packages.
+
+Native cancellation, base/derived lifecycle, sequential versus concurrent work,
+shared versus per-invocation resources, typed enum selectors and named string
+constants apply across these scopes. Required evidence must be asserted, and
+structured values retain their actual types. API details stay in the relevant
+reference instead of being copied into every skill.
+
+Previous runtime checkpoint (2026-10-17): account plugin 3.2.0 is saved and read back: all 28
 uploaded files match source and archive, all 29 remote paths are retained and
 the generated manifest is synchronized. Compatibility checks pass on 4.4.1
 (29 sample cases) and 4.5.1 (31), each with five expected-outcome runner probes
@@ -77,15 +92,22 @@ claimed for 3.2.0. The obsolete artifacts and two owned evaluation workspaces
 were removed after retaining the compact audit. Native AOT/hosting assets are
 unchanged; their existing dated evidence remains separate from these checks.
 
+Expansion checks (3.2.1, 2026-10-17): nine unique skills pass frontmatter and UI
+metadata validation; 106 local links and the 45-file archive validate. Installer
+checks cover all-skill idempotence and conflict detection before any link is
+created. The native runner/hosting/AOT fixtures are unchanged from the passing
+3.2.0 CI run. The new skill descriptions have not had a fresh-chat selection
+evaluation; historical evaluations remain evidence for their recorded versions.
+
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
-version-specific and do not establish fresh model behavior for 3.2.0.
+version-specific and do not establish fresh model behavior for 3.2.1.
 
 ## Installation
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
-which packages the skill and its references without an MCP server or external
-service dependency. Version 3.2.0 preserves automatic invocation for relevant
+which packages the skills and their references without an MCP server or external
+service dependency. Version 3.2.1 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
@@ -98,7 +120,7 @@ Build an account-upload archive with:
 python3 scripts/package_plugin.py --output /tmp/mstest-extensions.zip
 ```
 
-The archive contains `plugin.json` and `skills/mstest-extensions` only. Upload it
+The archive contains `plugin.json` and all nine directories under `skills/`. Upload it
 through Plugin Creator, then install the returned plugin in the intended account.
 After confirming installation, remove a duplicate standalone installation of
 the same skill from that host's discovery directory. Keep one active source.
@@ -115,9 +137,9 @@ python3 scripts/install.py
 python3 scripts/install.py --claude
 ```
 
-The default creates `~/.agents/skills/mstest-extensions` for Codex. `--claude`
-also links `~/.claude/skills/mstest-extensions`. Existing unrelated destinations
-are preserved. Use `--agents-dir` / `--claude-dir` for custom discovery roots.
+The default links all nine skills under `~/.agents/skills` for Codex. `--claude`
+also links them under `~/.claude/skills`. All destinations are checked before any
+link is created; existing unrelated destinations are preserved. Use `--agents-dir` / `--claude-dir` for custom discovery roots.
 
 Invoke `$mstest-extensions` with, for example: “Create a reusable MSTest data
 attribute and custom assertion for these scenarios, including rejection tests.”

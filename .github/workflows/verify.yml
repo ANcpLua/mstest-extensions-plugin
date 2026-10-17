@@ -26,6 +26,7 @@ jobs:
           python3 scripts/test_inspect.py
           python3 scripts/test_install.py
           python3 scripts/check_links.py
+          python3 scripts/package_plugin.py --output "$RUNNER_TEMP/mstest-extensions.zip"
           git diff --check
       - name: Verify recorded versions
         run: python3 scripts/verify_versions.py 4.4.1 4.5.1

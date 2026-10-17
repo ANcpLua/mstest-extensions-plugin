@@ -160,19 +160,19 @@ its textual contracts. For example, this proposed attribute surface uses an enum
 not strings masquerading as enum values:
 
 ```csharp
-public enum RuleFamily { Dependencies, Data }
+public enum PolicyKind { Dependencies, Data }
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class,
     AllowMultiple = true, Inherited = false)]
-public sealed class MonolithAttribute(RuleFamily family) : Attribute
+public sealed class VerifyPolicyAttribute(PolicyKind family) : Attribute
 {
-    public RuleFamily Family { get; } = family;
+    public PolicyKind Family { get; } = family;
 }
 
 public static class RuleDiagnosticCodes
 {
-    public const string DependencyViolation = "monolith.dependencies.violation";
-    public const string DataViolation = "monolith.data.violation";
+    public const string DependencyViolation = "policy.dependencies.violation";
+    public const string DataViolation = "policy.data.violation";
 }
 ```
 
@@ -180,14 +180,14 @@ Place both policies on an existing test method:
 
 ```csharp
 [TestMethod]
-[Monolith(RuleFamily.Dependencies)]
-[Monolith(RuleFamily.Data)]
+[VerifyPolicy(PolicyKind.Dependencies)]
+[VerifyPolicy(PolicyKind.Data)]
 ```
 
-`RuleFamily.Dependencies` and `RuleFamily.Data` are enum members. The diagnostic
+`PolicyKind.Dependencies` and `PolicyKind.Data` are enum members. The diagnostic
 codes are `const string` values. Keep those roles separate: do not use literal
-family names, `.ToString()` or `nameof(RuleFamily.Dependencies)` as substitutes for
-the typed argument. Reuse the same `RuleFamily` definition across extensions;
+family names, `.ToString()` or `nameof(PolicyKind.Dependencies)` as substitutes for
+the typed argument. Reuse the same `PolicyKind` definition across extensions;
 do not redeclare equivalent enums independently. If an external protocol needs
 a string representation, map
 the enum explicitly to its published or shared string constants at that boundary.

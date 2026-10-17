@@ -6,9 +6,9 @@ typed, while `TestDataRow<T>` can add display names, categories, and ignore
 reasons. The method/source signature still needs analyzer and discovery checks.
 Do not introduce obsolete `[DataTestMethod]` for new work.
 
-Repeatable rule markers such as `[Monolith(RuleFamily.Dependencies)]` and
-`[Monolith(RuleFamily.Data)]` select policies for an invocation; they are not data
-rows. `RuleFamily` remains an enum. See
+Repeatable rule markers such as `[VerifyPolicy(PolicyKind.Dependencies)]` and
+`[VerifyPolicy(PolicyKind.Data)]` select policies for an invocation; they are not data
+rows. `PolicyKind` remains an enum. See
 [typed rule selection](execution.md#typed-rule-selection-and-repeatable-policies).
 
 Keep the method's parameter count and types consistent with every row; attribute

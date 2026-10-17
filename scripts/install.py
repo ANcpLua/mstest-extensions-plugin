@@ -1,15 +1,16 @@
-"""Link the MSTest skill into local Codex and optionally Claude Code discovery."""
+"""Link the plugin's skills into local Codex and optionally Claude discovery."""
 import argparse
 from pathlib import Path
 
 
-def install(source, destinations):
-    source = source.resolve(strict=True)
-    for destination in destinations:
+def install(sources, destination_roots):
+    sources = [source.resolve(strict=True) for source in sources]
+    links = [(source, root / source.name) for root in destination_roots for source in sources]
+    for source, destination in links:
         if destination.exists() or destination.is_symlink():
             if not destination.is_symlink() or destination.resolve() != source:
                 raise FileExistsError(f"Refusing to replace existing skill: {destination}")
-    for destination in destinations:
+    for source, destination in links:
         if destination.is_symlink():
             print(f"Already linked: {destination}")
         else:
@@ -24,11 +25,11 @@ def main():
     parser.add_argument("--agents-dir", type=Path, default=Path.home() / ".agents" / "skills")
     parser.add_argument("--claude-dir", type=Path, default=Path.home() / ".claude" / "skills")
     args = parser.parse_args()
-    source = Path(__file__).resolve().parents[1] / "skills" / "mstest-extensions"
-    destinations = [args.agents_dir / source.name]
+    sources = sorted(path.parent for path in (Path(__file__).resolve().parents[1] / "skills").glob("*/SKILL.md"))
+    destinations = [args.agents_dir]
     if args.claude:
-        destinations.append(args.claude_dir / source.name)
-    install(source, destinations)
+        destinations.append(args.claude_dir)
+    install(sources, destinations)
 
 
 if __name__ == "__main__":

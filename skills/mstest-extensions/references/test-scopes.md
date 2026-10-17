@@ -3,7 +3,8 @@
 Choose the observable boundary before selecting a fixture. A plugin packages
 skills and resources; a project is a compiled code boundary. Four test projects
 do not require four skills that compete for the same MSTest request. This
-plugin's shared MSTest entrypoint routes to the relevant scope and API reference.
+plugin's skills separate extension design, test writing and review goals; all
+use the same native scope and API semantics described here.
 
 ## Different projects, different evidence
 

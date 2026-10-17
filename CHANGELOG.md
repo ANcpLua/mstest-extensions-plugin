@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.2.1 — 2026-10-17
+
+- Split the six adapted test-writing/review workflows into focused skills using
+  native MSTest 4.5.1 / MTP 2.5.1 semantics and shared API references.
+- Add dedicated Native AOT and Qyl telemetry skills alongside extension design.
+- Generalize captured-field lessons into likely agent failures and distinguishing
+  checks, independent of the original phase plan and scenario names.
+- Use Qyl's public host registration for application scenarios, preserving
+  legitimate internal provider-owned SDK instrumentation.
+- Package and optionally link every skill, checking all install destinations
+  before creating any link. Preserve plugin identity and invocation settings.
+
 ## 3.2.0 — 2026-10-17
 
 - Distinguish unit, integration, end-to-end and shared-helper scopes inside the

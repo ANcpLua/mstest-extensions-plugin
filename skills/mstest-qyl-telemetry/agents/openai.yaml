@@ -1,0 +1,6 @@
+interface:
+  display_name: "Qyl telemetry tests"
+  short_description: "Test Qyl capture and telemetry contracts"
+  default_prompt: "Use $mstest-qyl-telemetry for the requested testing task."
+policy:
+  allow_implicit_invocation: true
