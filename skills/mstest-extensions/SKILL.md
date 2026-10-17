@@ -66,10 +66,32 @@ Read only the reference that applies to the requested capability.
 ## Implement with MSTest semantics
 
 Keep data descriptions immutable and create mutable resources per execution.
-Discovery and data enumeration must not acquire per-invocation resources. Optional hosting can bootstrap a root host even for discovery; keep its startup bounded and verify it creates no invocation scopes. Preserve result
-arrays, original failures, data-row arguments, and lifecycle behavior when
-wrapping execution. Scope experimental API acknowledgments to the specific code
-that requires them; do not disable analyzers project-wide to make an example fit.
+Discovery and data enumeration must not acquire per-invocation resources.
+Optional hosting can bootstrap a root host even for discovery; keep its startup
+bounded and verify it creates no invocation scopes. Preserve every result,
+original failure, data-row argument and lifecycle behavior when wrapping execution.
+Let MSTest own row expansion; do not manually re-enumerate `[DataRow]` inside a
+wrapper or collapse its results. Read [data guidance](references/data.md) when
+composing extensions around parameterized tests.
+A required verification or cleanup failure must remain visible, including when
+another test failure already exists. Optional diagnostic capture has a different
+failure policy. Read [execution](references/execution.md) and
+[lifecycle](references/lifecycle.md) before choosing that policy.
+
+Use published framework or domain constants for fixed contract strings. Define
+shared named constants for owned keys, event names, configuration settings,
+resource identifiers and diagnostic markers instead of repeating literals. Keep
+typed enum selectors typed: `RuleFamily.Dependencies` is an enum member, not a
+string constant. Pass it directly to a typed attribute constructor; do not replace
+it with a string or `.ToString()`. Use `nameof` for member/type references. Keep distinct adversarial inputs distinct;
+do not normalize test values or create a second catalog of published constants.
+See [constant strings](references/execution.md#constant-strings-and-contracts).
+
+Scope experimental API acknowledgments to the specific code that requires them.
+Where supported, declare an internal wrapper's experimental dependency with the
+same diagnostic ID instead of suppressing the diagnostic. Do not disable
+analyzers project-wide. Native invocation context is version-dependent; see
+[execution](references/execution.md#native-invocation-context-and-cancellation).
 For class-created execution wrappers, source navigation comes from discovery of
 the original test attribute. Use the [execution guidance](references/execution.md)
 before copying caller metadata or adding an inspection suppression.

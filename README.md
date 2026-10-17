@@ -34,11 +34,38 @@ record the 4.4.1 → 4.5.1 delta, including argument display labels, optional
 hosting, built-in diagnostics and MTP changes. These are dated evidence, not a
 hardcoded support ceiling or guarantees for future releases.
 
+## Current maintenance
+
+Version 1.1.2 includes the execution and lifecycle corrections: native invocation
+cancellation, declaration-scoped experimental dependencies, lazy assembly-owned
+resources, explicit evidence requirements and preserving original failures when
+verification or cleanup also fails. The existing composition cases check native
+context on 4.5.1; 4.4.1 keeps its verified API path without pretending it exposes
+that accessor. Shared contract strings use published or owned named constants,
+and member references use `nameof`. Data-row guidance explicitly preserves
+native row expansion, metadata, lifecycle and result identities through composition.
+Typed enum policy selectors stay distinct from string constants and data rows.
+The lifecycle reference now specifies global-hook placement, combined constructor
+and async setup, shared-provider exceptions, UI/STA contexts, assembly-local
+parallel coordination, ambient versus process-wide culture, and .NET Framework
+AppDomain behavior.
+
+Checkpoint (2026-10-17): private account plugin 1.1.2 is saved and read back.
+All 25 uploaded files match the archive, all 26 remote paths are retained, and
+the generated compatibility manifest is synchronized. Package, YAML and 48
+local-link checks pass. Existing 4.4.1/4.5.1 execution and zero-finding inspection
+results remain valid because the subsequent lifecycle corrections change prose
+only. A current-host reload and fresh model-selection evaluation are unverified.
+
+The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
+reviewed evidence remain below. Plugin model-selection evaluations are separate
+historical evidence; this update does not request or rerun them.
+
 ## Installation
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 1.1.0 permits automatic invocation for relevant
+service dependency. Version 1.1.2 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
 record actual selection and navigation behavior separately from the example
@@ -108,7 +135,9 @@ analyzers remain enabled and warnings are errors.
 A real child-runner discovery check verifies file/line navigation for declared
 method attributes and tests with a class-created execution wrapper. Navigation
 comes from the original declared attribute; the wrapper factory copies no caller
-metadata and requires no `ExplicitCallerInfoArgument` suppression. The failure
+metadata and requires no `ExplicitCallerInfoArgument` suppression. On 4.5.1,
+the internal executor declares its experimental dependency and reads the native
+invocation token; the existing rows compare it with constructor-injected context. The failure
 probe project references the example assembly, exercising the same extension
 implementation rather than compiling another copy.
 
@@ -151,7 +180,7 @@ under AOT, Windows UI, browser execution, arbitrary custom attributes or every
 retry/filter policy. The direct executable checks do not claim to fix the
 separate official MSBuild/TRX controller limitation. Fresh-chat evaluations above
 record individual 1.0.1 installed-host requests; they do not establish model
-quality or trigger reliability for 1.1.0 across models, prompts or hosts.
+quality or trigger reliability for 1.1.2 across models, prompts or hosts.
 
 ## Sources
 

@@ -72,6 +72,135 @@ failure. Keep cleanup failures visible. Test a failing body and broken diagnosti
 capture through the actual adapter; check both the report and nonzero process
 exit. Test successful invocation and data arguments too.
 
+## Native invocation context and cancellation
+
+The inspected 4.5.1 framework exposes experimental `TestContext.Current`, and its
+matching adapter establishes that context around execution of a custom method
+executor. This API is absent from the inspected 4.4.1 package. Resolve both the
+framework and adapter before using it; do not infer runtime availability from a
+signature alone. Outside a native invocation the property can be null.
+
+An internal class-created wrapper can declare the dependency on its override:
+
+```csharp
+[Experimental("MSTESTEXP")]
+public override async Task<TestResult[]> ExecuteAsync(ITestMethod method)
+{
+    var context = TestContext.Current
+        ?? throw new InvalidOperationException(MissingInvocationContext);
+    context.CancellationToken.ThrowIfCancellationRequested();
+    return await original.ExecuteAsync(method);
+}
+```
+
+Here `original` is the supplied method attribute and `MissingInvocationContext`
+is an owned named diagnostic constant. Import `System.Diagnostics.CodeAnalysis`.
+With the matching diagnostic ID, the declaration acknowledges the experimental
+API inside that member without a warning suppression. Keep the concrete wrapper
+internal: exposing experimental members publicly can require consumers to
+acknowledge that dependency too. This is an API dependency declaration, not proof
+that the API is stable. The repository's class-composition example checks the
+native token against constructor-injected `TestContext` on 4.5.1.
+
+Pass the invocation token through owned startup and evidence waits. Do not store
+`TestContext` in process-wide state, inspect adapter-private fields, substitute
+an assembly-initialization token for an invocation token, or add a compatibility
+fallback that silently loses cancellation. On a version without this API, use
+supported constructor/property injection in native lifecycle methods and make
+any required consumer plumbing explicit. Cleanup still needs a bounded chance
+to terminate and join resources after the invocation token is cancelled.
+
+## Required verification and failure preservation
+
+Keep original result arrays and objects. Evaluate every relevant result rather
+than applying a class-wide verdict only to `results[^1]`. Preserve an empty array
+without indexing it; an actual cleanup failure must still be reported.
+
+After the original executor returns, evidence waits, verification and disposal
+can each fail. Retain an existing assertion exception as the primary failure and
+attach the infrastructure diagnostics; mark an otherwise passing result failed
+when required verification or cleanup fails. If the executor itself throws,
+retain its exception and stack while also reporting cleanup failures. A throwing
+`finally` must not replace it. Suppressing errors is appropriate only for optional
+best-effort diagnostics, never required evidence collection or resource cleanup.
+
+For telemetry contracts, distinguish conformance, a measured violation and
+insufficient evidence. Empty observations do not prove that a forbidden action
+never happened. Declare which producers, calls, state changes or terminal events
+the scenario requires. Matching HTTP client/server spans alone does not establish
+that database spans, background work, logs or metrics have arrived. Wait on
+explicit evidence with a deadline and cancellation. Metric predicates need a
+producer identity, measurement window and appropriate baseline; metrics do not
+inherently belong to one trace. Report what the observed scenario establishes.
+
+## Constant strings and contracts
+
+Prefer the installed framework's or domain library's named constants over copied
+string values. For strings the extension owns, centralize stable contract names
+in a small shared class: property-bag keys, event names, environment settings,
+resource-lock identities and diagnostic markers. Reuse the same definitions at
+production and consumption sites so a spelling change cannot silently disconnect
+them. Extensions that exchange identifiers must reference one shared contract
+definition/package, not maintain per-extension copies. In telemetry integrations,
+prefer the resolved instrumentation/semantic
+convention library's constants; do not duplicate its catalog locally.
+
+Use `nameof` for dynamic-data member references and type-derived identifiers.
+Keep protocol values exact, and preserve deliberately different data-row inputs
+such as a hyphenated key and an underscored key. If the literal spelling is the
+behavior under test, assert that spelling independently; importing the same
+constant into both sides must not make a changed wire contract pass unnoticed.
+A one-off descriptive assertion message need not become a global constant.
+
+## Typed rule selection and repeatable policies
+
+A domain policy can keep rule selection typed while using named constants for
+its textual contracts. For example, this proposed attribute surface uses an enum,
+not strings masquerading as enum values:
+
+```csharp
+public enum RuleFamily { Dependencies, Data }
+
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class,
+    AllowMultiple = true, Inherited = false)]
+public sealed class MonolithAttribute(RuleFamily family) : Attribute
+{
+    public RuleFamily Family { get; } = family;
+}
+
+public static class RuleDiagnosticCodes
+{
+    public const string DependencyViolation = "monolith.dependencies.violation";
+    public const string DataViolation = "monolith.data.violation";
+}
+```
+
+Place both policies on an existing test method:
+
+```csharp
+[TestMethod]
+[Monolith(RuleFamily.Dependencies)]
+[Monolith(RuleFamily.Data)]
+```
+
+`RuleFamily.Dependencies` and `RuleFamily.Data` are enum members. The diagnostic
+codes are `const string` values. Keep those roles separate: do not use literal
+family names, `.ToString()` or `nameof(RuleFamily.Dependencies)` as substitutes for
+the typed argument. Reuse the same `RuleFamily` definition across extensions;
+do not redeclare equivalent enums independently. If an external protocol needs
+a string representation, map
+the enum explicitly to its published or shared string constants at that boundary.
+
+The policy marker above is an ordinary repeatable `Attribute`; it is not another
+`TestMethodAttribute` or `TestClassAttribute`. One native executor, installed by
+one class-level composition point or an existing supported method executor,
+collects the policies, invokes the supplied original method attribute once and
+evaluates both selected families. The consuming class still needs its native test
+class declaration/composition. Do not stack competing executors, replace
+`[TestMethod]`, invoke the test once per rule, or treat the two markers as two data
+rows. Define class/method merging and duplicate-family behavior deliberately.
+The snippet is a proposed domain surface, not an already implemented plugin API.
+
 ## Conditions
 
 Start with a built-in condition when it fits. For a domain condition, derive from

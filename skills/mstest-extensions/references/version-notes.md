@@ -17,6 +17,12 @@ and no removals; behavior and packaging also changed.
 
 Relevant 4.5.1 changes:
 
+- `TestContext.Current` is experimental (`MSTESTEXP`); the matching adapter
+  establishes it around execution wrappers. It is absent from the inspected
+  4.4.1 package. An internal override can declare the experimental dependency
+  without suppressing diagnostics. The class-composition sample checks its token
+  against the context injected into each test invocation.
+
 - `DataRowAttribute` and `TestDataRow<T>` gain `ArgumentsDisplayName`, retaining
   the method name. Full `DisplayName` overrides have precedence according to
   each type's contract. Dynamic labels need an updated adapter. Automatically
@@ -46,3 +52,10 @@ and [release summary](https://github.com/ANcpLua/MSTest-4.4.1/blob/591f0cda03de1
 Executable checks and limits are recorded in the repository README and the
 [packaged capability evidence](executable-evidence.md), refreshed on 16 October
 2026. API notes alone do not establish hosting, Native AOT or model evaluation.
+
+Native invocation context and lazy assembly ownership were checked on 17 October
+2026 against restored 4.5.1 packages and the
+[architecture prototype lifecycle correction](https://github.com/ANcpLua/mstest-architecture-prototype/commit/bacb74e3f2fdb3f49110e71bbb91ac6fde3b2661).
+That consumer evidence includes real service processes, discovery and unit-only
+selection without a collector. It does not replace verification of another
+consumer's resolved runner or establish new capability-verifier/AOT evidence.

@@ -6,6 +6,27 @@ typed, while `TestDataRow<T>` can add display names, categories, and ignore
 reasons. The method/source signature still needs analyzer and discovery checks.
 Do not introduce obsolete `[DataTestMethod]` for new work.
 
+Repeatable rule markers such as `[Monolith(RuleFamily.Dependencies)]` and
+`[Monolith(RuleFamily.Data)]` select policies for an invocation; they are not data
+rows. `RuleFamily` remains an enum. See
+[typed rule selection](execution.md#typed-rule-selection-and-repeatable-policies).
+
+Keep the method's parameter count and types consistent with every row; attribute
+arguments must be valid compile-time attribute values. Reuse published or shared
+named constants for fixed contract strings in rows and expected metadata. Use
+`nameof` for data-source member references. Retain independent literal checks
+when the exact external spelling is the behavior under test.
+
+Execution extensions must delegate to the original method attribute instead of
+re-enumerating `DataRowAttribute` instances, looping over cases themselves or
+calling `MethodInfo.Invoke`. MSTest owns row expansion, selection and reporting.
+Preserve each row's arguments, display metadata, source location, cancellation,
+initialization/cleanup and result objects. Do not merge row results or attach a
+shared failure only to the final result. When an extension supports folded data,
+inspect its resolved unfolding contract rather than assuming one execution call
+always represents exactly one row. Verify the same row behavior through composed
+extensions and their actual consuming runner to catch semantic drift.
+
 Use a custom attribute when the same scenario vocabulary is useful across test
 classes. The `ITestDataSource` pattern checked in 4.4.1 and 4.5.1 is synchronous;
 resolve its signature again when the consumer's version changes:

@@ -7,7 +7,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
     <TestingExtensionsProfile>None</TestingExtensionsProfile>
-    <!-- These two cases exercise APIs absent from 4.4.1; shared cases still run there. -->
-    <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(MSTestVersion)', '4.5.1'))">$(DefineConstants);MSTEST_ARGUMENT_LABELS</DefineConstants>
+    <!-- Argument labels and native invocation context are absent from 4.4.1. -->
+    <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(MSTestVersion)', '4.5.1'))">$(DefineConstants);MSTEST_ARGUMENT_LABELS;MSTEST_NATIVE_CONTEXT</DefineConstants>
   </PropertyGroup>
 </Project>

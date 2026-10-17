@@ -1,10 +1,31 @@
 # Lifecycle, resources, and async isolation
 
-Use `[TestInitialize]` and `[TestCleanup]` for per-test resources; data rows each
-have their own test lifecycle. Async setup/cleanup can return `Task` or `ValueTask`
-in the inspected versions. Keep constructors resource-light and roll back partial setup
-inside the acquisition helper. Do not rely on teardown for an object that never
-finished construction.
+## Order, setup and signatures
+
+In the inspected 4.4.1 and 4.5.1 versions, the normal lifecycle is:
+
+```text
+AssemblyInitialize → ClassInitialize
+→ constructor → TestContext property injection (if present)
+→ GlobalTestInitialize → TestInitialize (base → derived) → test
+→ TestContext outcome update
+→ TestCleanup (derived → base) → GlobalTestCleanup
+→ DisposeAsync → Dispose → ClassCleanup → AssemblyCleanup
+```
+
+The test-level portion runs separately for every data row. Ordering among
+multiple global initializers, or among multiple global cleanups, is unspecified;
+their positions around the per-test hooks are defined. Do not build dependencies
+between global methods. Global fixtures were introduced in 3.10; their timeout
+attributes and dedicated timeout settings are supported from 4.4.
+
+Use constructors for synchronous initialization of `readonly` fields, and
+`TestInitialize` for asynchronous setup or fixture timeouts. Combining both is
+supported. `MSTEST0019` and `MSTEST0020` are opposing, optional style preferences,
+not a prohibition on combining them. Async setup/cleanup can return `Task` or
+`ValueTask` in the inspected versions. Roll back partial acquisition inside its
+helper: a constructor failure leaves no completed instance for test cleanup or
+disposal. A `TestInitialize` failure still runs cleanup and disposal.
 
 MSTest supports `TestContext` injection through the test-class constructor in the
 inspected versions, or the supported property pattern. Obtain cooperative cancellation
@@ -13,19 +34,65 @@ injection. Thread it into owned operations. Inspect
 `CurrentTestOutcome` in cleanup for failure diagnostics and use context output or
 result attachments while their data remains available.
 
-Class/assembly initialize and cleanup methods are static and have their own
-signature/context rules. In MSTest 4, class cleanup occurs at the end of the
-class; do not transplant older `ClassCleanupBehavior` examples. Global test
-fixtures have a wider application scope and their ordering is not a dependency
-mechanism. Choose the narrowest scope that owns the resource.
+Class/assembly fixture methods are `public static` and return `void`, `Task`, or
+`ValueTask` (the latter from 3.3). Initializers take one `TestContext`; cleanups
+take none or one (from 3.8). Ordinary local declarations live in a `[TestClass]`,
+with one initializer and cleanup per class or assembly respectively. In MSTest 4,
+class cleanup occurs at the end of the class; do not transplant older
+`ClassCleanupBehavior` examples. From 4.2, class/assembly cleanup failures have
+separate results; include those results in verification. Global fixture methods
+are `public static`, return the same supported types, and take exactly one
+`TestContext`. Choose the narrowest scope that owns the resource.
 
 For reusable assembly setup, inspect `AssemblyFixtureProviderAttribute` in the
-installed adapter before choosing registration placement. In the inspected
-versions, a shared library can advertise fixture methods to consuming
-assemblies, while local assembly fixture declarations take precedence. Native
-AOT skips this provider discovery. Verify actual initialization and cleanup in
-the consuming assembly instead of assuming that referencing a fixture library
-is sufficient.
+installed adapter before choosing registration placement. Introduced in 4.3,
+it lets a shared library advertise fixture methods to consuming assemblies;
+the provider type does not need `[TestClass]`. Multiple provider types can
+compose assembly fixtures, so the local one-per-assembly rule is not a limit of
+one shared provider. Local assembly fixture declarations take precedence. From
+4.4, provider discovery is skipped without dynamic-code support, including
+Native AOT; declare fixtures directly in an AOT test assembly. Verify actual
+initialization and cleanup in the consuming assembly instead of assuming that
+referencing a fixture library is sufficient. Align the framework major version
+of shared base/attribute libraries and consumers: v3/v4 attribute identity
+mismatches can silently omit inherited tests and fixtures (`MSTEST0082`).
+
+Async tests have no `SynchronizationContext` by default. UI tests and supported
+STA execution with `UseSTASynchronizationContext = true` are exceptions; verify
+the platform and continuation behavior before relying on thread affinity.
+
+For timeouts, prefer `[Timeout(..., CooperativeCancellation = true)]` and flow
+the native context token through cancellable work. MSTest signals cancellation
+and awaits completion; code that ignores cancellation can still hang. A
+noncooperative timeout can stop waiting while the operation continues. Neither
+mode makes it safe to dispose dependencies before the original operation ends.
+
+## Lazy shared ownership and failure-safe cleanup
+
+Automatic registration does not require eager infrastructure startup. An assembly
+fixture can register a lightweight run-owned session, then start collectors,
+servers or brokers only when a selected test needs them. Ordinary unit-test
+selection should not gain an external-process dependency from loading a library.
+Give caches and mutable resource registries an explicit consuming-run owner; a
+process-wide singleton can couple assemblies and retain disposed resources.
+
+In the inspected 4.5.1 adapter, lifecycle `TestContext.Properties` snapshots flow
+reference-valued entries from assembly initialization into later native contexts.
+Use a shared named constant for an owned property key. Do not assume that the
+same dictionary or `TestContext` instance is reused. Verify propagation with the
+consumer's runner, and explicitly compose registration when a local assembly
+fixture overrides the library provider. This is version-specific evidence, not a
+universal property-bag service locator.
+
+Retain evidence before it becomes unavailable. Shutdown should attempt every
+owned resource and attach already-written evidence even if stopping another
+resource fails. Collect multiple failures without losing the original. Do not
+place result attachment only after a successful shutdown await, or use an already
+cancelled test token to prevent the essential stop-and-join work. Use owned,
+unique artifact paths instead of a shared fixed filename that parallel runs can
+overwrite. Restore any prior ambient invocation on scope exit and reject access
+to a disposed scope. An ambient accessor identifies the invocation; it does not
+own the assembly's resources.
 
 ## Hosting integration when available
 
@@ -48,17 +115,45 @@ See [known version evidence](version-notes.md) for the source of these limits.
 ## Parallel execution and ownership
 
 Declare a deliberate `[assembly: Parallelize(...)]` or
-`[assembly: DoNotParallelize]` policy consistent with the repository. MSTest does
-not share TUnit's parallel-by-default contract. Give each test its own workspace,
+`[assembly: DoNotParallelize]` policy consistent with the repository, or use the
+consumer's supported configuration mechanism. Do not declare duplicate source
+attributes when MSBuild generates them. MSTest does not share TUnit's
+parallel-by-default contract. Give each test its own workspace,
 stream, mutable fixture, or server partition. Shared fixtures need immutable
 state, separate per-test partitions, or synchronization.
 
-When supported (introduced in 4.4), `[ResourceLock("key")]` coordinates participating tests in the same
-assembly. Keys are ordinal and case-sensitive; path-like keys do not establish
-parent/child locks. Default access is exclusive; `ResourceAccessMode.Read` allows
-concurrent readers. Every relevant reader and writer must participate. These
-locks are not cross-process or cross-assembly locks. Use built-in well-known
-resource names when coordinating process-wide state within the assembly.
+`[DoNotParallelize]` coordinates only tests within the same assembly; it does
+not isolate other assemblies or processes. The inspected runner defers these
+tests until after that assembly's parallel set, but this scheduling order is an
+implementation detail, not a public ordering contract.
+
+When supported (introduced in 4.4), `[ResourceLock]` coordinates participating
+tests in the same assembly. Reuse `WellKnownResources.EnvironmentVariables`,
+`WellKnownResources.CurrentDirectory`, or `WellKnownResources.Console` for those
+resources; use shared `const string` definitions for owned keys. Keys are ordinal
+and case-sensitive; path-like keys do not establish parent/child locks. Default
+access is exclusive; `ResourceAccessMode.Read` allows concurrent readers. Every
+relevant reader and writer must participate. With class-level parallelization,
+the runner combines class/method locks for the class lifecycle; with method-level
+parallelization, locks cover each test's initialization and cleanup. Locks have
+no effect when parallelization is disabled, and `DoNotParallelize` takes precedence.
+These locks are not cross-process or cross-assembly locks.
+
+`MSTEST0076` concerns process-wide `DefaultThreadCurrentCulture` and
+`DefaultThreadCurrentUICulture` mutations. On modern .NET, ambient
+`CultureInfo.CurrentCulture`/`CurrentUICulture` flow with the execution context
+and are not equivalent process-wide changes. Shared filesystem paths
+(`MSTEST0077`), environment variables, the current directory and static caches
+also need isolation. Assembly-local locks or `DoNotParallelize` cannot protect
+process-global state from unrelated concurrently executing assemblies; use
+separate processes when that boundary is required.
+
+Join owned threads and terminate/reap owned child processes before deleting
+their workspace. On **.NET Framework**, MSTest 4 under MTP disables AppDomain
+isolation by default; an abandoned foreground thread can therefore hang the
+process instead of being aborted when the isolated AppDomain unloads. Modern
+.NET does not provide that AppDomain unloading model either. Resource ownership
+must not depend on the runner aborting threads.
 
 ## Actual async suspension
 
@@ -105,4 +200,7 @@ logging.
 
 Sources: [lifecycle](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-lifecycle),
 [TestContext](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-testcontext),
+[execution and parallelism](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-controlling-execution),
+[v4 migration](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-migration-v3-v4),
+[culture isolation](https://learn.microsoft.com/en-us/dotnet/core/testing/mstest-analyzers/mstest0076),
 and the package contracts in [source routes](sources.md).
