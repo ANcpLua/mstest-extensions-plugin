@@ -67,6 +67,33 @@ and awaits completion; code that ignores cancellation can still hang. A
 noncooperative timeout can stop waiting while the operation continues. Neither
 mode makes it safe to dispose dependencies before the original operation ends.
 
+## Sequential work, asynchronous work and cancellation scope
+
+`async` does not mean parallel. Await dependent steps in order: prepare the
+resource, run the operation, observe its completion, verify its result, then
+dispose. Starting verification or teardown before the producer has finished
+creates races even when every method returns `Task`.
+
+Run independent work concurrently only when its resources and ordering contract
+allow it. Use `Task.WhenAll` to join every started operation; do not abandon
+siblings when the first observation fails. Collect the failures needed for a
+useful report. Avoid `Task.Run` for naturally asynchronous process/network I/O,
+blocking `.Result`/`.Wait()`, and `async void`. A synchronous constructor is
+appropriate for cheap synchronous setup; do not manufacture asynchronous work.
+
+| Resource/work scope | Cancellation and ownership |
+| --- | --- |
+| One test invocation | Flow that invocation's native token to its operations; cleanup still terminates and joins them. |
+| Shared immutable publication or startup | The fixture owns the work and its lifetime token; each test can cancel its wait without cancelling work required by other tests. |
+| Mutable per-row child process or service partition | The row owns it; do not share it just because publication was shared. |
+| Cleanup after cancellation | Use a separate bounded cleanup budget where needed, preserve the original failure, and wait for owned work to terminate. |
+
+Do not let the first cancelled row permanently poison a shared `Lazy<Task<T>>`
+or cancel another row's publication. Define the fixture's behavior after shared
+startup failure explicitly. A timeout on a caller's wait does not stop shared
+work; the fixture must still observe and join it at shutdown. Avoid automatically
+retrying failed startup without a deliberate, tested retry policy.
+
 ## Lazy shared ownership and failure-safe cleanup
 
 Automatic registration does not require eager infrastructure startup. An assembly

@@ -36,26 +36,33 @@ hardcoded support ceiling or guarantees for future releases.
 
 ## Current maintenance
 
-Version 1.1.2 includes the execution and lifecycle corrections: native invocation
-cancellation, declaration-scoped experimental dependencies, lazy assembly-owned
-resources, explicit evidence requirements and preserving original failures when
-verification or cleanup also fails. The existing composition cases check native
-context on 4.5.1; 4.4.1 keeps its verified API path without pretending it exposes
-that accessor. Shared contract strings use published or owned named constants,
-and member references use `nameof`. Data-row guidance explicitly preserves
-native row expansion, metadata, lifecycle and result identities through composition.
-Typed enum policy selectors stay distinct from string constants and data rows.
-The lifecycle reference now specifies global-hook placement, combined constructor
-and async setup, shared-provider exceptions, UI/STA contexts, assembly-local
-parallel coordination, ambient versus process-wide culture, and .NET Framework
-AppDomain behavior.
+Version 1.2.1 integrates six upstream review topics into the existing skill:
+smell detection, practical anti-pattern review, MSTest writing, test-value
+evidence, assertion quality and gap analysis. The
+[quality reference](skills/mstest-extensions/references/test-quality.md) separates
+static findings from executed proof and avoids assertion quotas, unnecessary
+seams and blanket objections to shared fixtures or integration workflows.
+The [telemetry reference](skills/mstest-extensions/references/telemetry-contracts.md)
+covers capture, ingestion, persistence and read-time privacy; native span
+ownership; independent rows with shared publication; and artifact-specific
+Native AOT evidence. It applies the captured-field phase lessons without
+turning project-specific packages into universal dependencies.
 
-Checkpoint (2026-10-17): private account plugin 1.1.2 is saved and read back.
-All 25 uploaded files match the archive, all 26 remote paths are retained, and
-the generated compatibility manifest is synchronized. Package, YAML and 48
-local-link checks pass. Existing 4.4.1/4.5.1 execution and zero-finding inspection
-results remain valid because the subsequent lifecycle corrections change prose
-only. A current-host reload and fresh model-selection evaluation are unverified.
+Existing native cancellation, version-resolved APIs, original-result
+preservation and resource ownership guidance remains in place. Required
+preconditions must be asserted, structured values must retain their types, and
+typed enum selectors remain distinct from shared string constants.
+The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
+sequential versus concurrent work, shared versus per-invocation cancellation,
+and generated-discovery versus executed Native AOT evidence explicit.
+
+Checkpoint (2026-10-17): private account plugin 1.2.1 is saved and read back.
+All 27 uploaded files match source, all 28 remote paths are retained, and the
+generated compatibility manifest is synchronized. Package integrity, JSON/YAML
+metadata and 61 local Markdown links pass.
+Existing 4.4.1/4.5.1 execution and zero-finding inspection results remain valid:
+this release changes guidance and metadata, not executable examples. A
+current-host reload and fresh model-selection evaluation are unverified.
 
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Plugin model-selection evaluations are separate
@@ -65,7 +72,7 @@ historical evidence; this update does not request or rerun them.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 1.1.2 preserves automatic invocation for relevant
+service dependency. Version 1.2.1 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
 record actual selection and navigation behavior separately from the example

@@ -62,6 +62,14 @@ Read only the reference that applies to the requested capability.
 | Constructing test classes from an application-owned service provider | Installed hosting integration and its compatibility limits | [Lifecycle](references/lifecycle.md) |
 | Programmatic run selection | `ITestFilter` and one assembly-level provider | [Execution](references/execution.md) |
 | Discovery, reporting, MTP integration, or source generation/AOT | Existing runner and its supported extension APIs | [Runner and generation](references/runner-and-generation.md) |
+| Review test quality, strengthen assertions, or establish what a change's tests prove | Scope the review and trace observable outcomes | [Test quality and evidence](references/test-quality.md) |
+| Verify telemetry capture, privacy, persistence, or native span ownership | Separate producer, transport, storage and read-time contracts | [Telemetry contracts](references/telemetry-contracts.md) |
+
+For a focused correction, read the relevant topic and fix the demonstrated issue;
+do not turn one assertion edit into a suite-wide audit. A review of changed tests
+uses [test quality and evidence](references/test-quality.md) to distinguish code
+findings, possible gaps and executed proof. The telemetry reference applies only
+when that domain is in scope. Neither reference requires loading other skills.
 
 ## Implement with MSTest semantics
 
@@ -107,7 +115,9 @@ parallel-default assumptions into MSTest.
 
 Discover the affected tests through the consuming project's normal entrypoint;
 check row names and counts, then run the focused cases. Tests already compile
-the code. For a custom assertion, exercise acceptance and rejection. For data
+the code. Reuse passing results while their relevant source, fixtures, packages
+and configuration are unchanged. Prose-only guidance needs content and package
+checks, not another test run. For a custom assertion, exercise acceptance and rejection. For data
 providers, verify repeatable enumeration and meaningful combinations. For
 execution policies, check a real runner failure as well as a passing invocation;
 an exception swallowed into a passing result is a defect.

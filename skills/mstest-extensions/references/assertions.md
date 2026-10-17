@@ -47,5 +47,21 @@ Keep ordered equality and unordered equivalence separate. Use the installed
 version's sequence/span assertions when appropriate; an assertion package
 addition needs a concrete missing capability.
 
+Use assertions that preserve useful failure diagnostics: expected value first,
+observed value second for equality; confirm the installed signature for bounds
+and comparison APIs rather than copying the expression's operand order. When
+available, use the value returned by `Assert.IsInstanceOfType<T>` instead of a
+hard cast followed by a check. For an array-valued contract, establish the actual
+array type before comparing its elements; a joined string can hide a wrong wire
+representation. Check exact identities and uniqueness when a count alone would
+accept the wrong collection. Preserve order only when it is part of the contract.
+
+Do not gate a required assertion behind an optional precondition. Assert that
+the required parent, result or event exists first, then check its properties.
+An optional observation needs an explicit scenario contract explaining its
+absence. Follow helper assertions and child-process reports before concluding
+that a method has no checks. See [test quality and evidence](test-quality.md) for
+independent oracles and meaningful failure probes.
+
 Sources: [assertion documentation](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-mstest-writing-tests-assertions)
 and `Assert.That` in the [resolved framework package](sources.md).
