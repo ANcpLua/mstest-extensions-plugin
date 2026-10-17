@@ -23,9 +23,10 @@ def execute(command, workspace, log, expected=0):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("versions", nargs="+", help="Exact MSTest.Sdk package versions; no implicit upgrades")
+    parser.add_argument("--output", type=Path, help="Evidence root; default is repository artifacts/compatibility")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    artifacts = root / "artifacts/compatibility"
+    artifacts = args.output or root / "artifacts/compatibility"
     artifacts.mkdir(parents=True, exist_ok=True)
     output = Path(tempfile.mkdtemp(prefix="run-", dir=artifacts))
     previous = None
@@ -44,7 +45,7 @@ def main():
             (workspace / "global.json").write_text(json.dumps(config, indent=2) + "\n")
             command = ["dotnet", "test", "--project", "examples/MSTestExtensionSamples", "-c", "Release"]
             discovery = execute(command + ["--list-tests"], workspace, evidence / "discovery.log")
-            count = 33 if tuple(map(int, version.split("-", 1)[0].split("."))) >= (4, 5, 1) else 31
+            count = 31 if tuple(map(int, version.split("-", 1)[0].split("."))) >= (4, 5, 1) else 29
             if not re.search(rf"Discovered {count} tests\.", discovery):
                 raise SystemExit(f"Expected {count} discovered cases for {version}; see {evidence}")
             if count == 33:

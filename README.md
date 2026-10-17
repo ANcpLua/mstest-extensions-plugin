@@ -5,7 +5,7 @@ assertions, execution attributes, conditions/retries, fixtures and test filters.
 It routes runner, hosting and source-generation work to the relevant APIs.
 
 Start at [SKILL.md](skills/mstest-extensions/SKILL.md). The package contains one
-skill, 11 reference documents, scripts and executable assets. References support
+skill, 12 reference documents, scripts and executable assets. References support
 the skill and load when relevant; they are not separate skills. Keep workflows
 together while their user goal and activation conditions agree, and split them
 when their triggers, inputs or success criteria differ. See the official
@@ -65,24 +65,27 @@ The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
 sequential versus concurrent work, shared versus per-invocation cancellation,
 and generated-discovery versus executed Native AOT evidence explicit.
 
-Checkpoint (2026-10-17): 3.0.1 is prepared locally to address the
-[3.0.0 activation miss](evals/automatic-discovery/3.0.0.md) and unnecessary standalone
-builds. The description now includes planning and explanation without selected
-versions; conceptual guidance preserves that uncertainty, and implementation
-uses the normal test entrypoint to compile and restore. Account 3.0.1 is saved and all 27 uploaded files match read-back; the generated
-compatibility manifest is synchronized. GitHub release and fresh regressions
-are pending. The 3.0.0 release and evaluation remain
-available as historical evidence.
+Checkpoint (2026-10-17): account plugin 3.2.0 is saved and read back: all 28
+uploaded files match source and archive, all 29 remote paths are retained and
+the generated manifest is synchronized. Compatibility checks pass on 4.4.1
+(29 sample cases) and 4.5.1 (31), each with five expected-outcome runner probes
+and seven native source-location checks. Scoped JetBrains inspection reports
+zero findings; package, JSON/YAML and 71 local links validate. The
+[audited 3.0.1 evaluation](evals/automatic-discovery/3.0.1.md) retains its initial
+activation miss, retry and corrected failures. No fresh model evaluation is
+claimed for 3.2.0. The obsolete artifacts and two owned evaluation workspaces
+were removed after retaining the compact audit. Native AOT/hosting assets are
+unchanged; their existing dated evidence remains separate from these checks.
 
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
-version-specific and do not establish behavior for 3.0.0.
+version-specific and do not establish fresh model behavior for 3.2.0.
 
 ## Installation
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 3.0.1 preserves automatic invocation for relevant
+service dependency. Version 3.2.0 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
@@ -140,8 +143,8 @@ not claim compatibility until that version's checks pass.
 
 | SDK / framework / adapter | MTP | Passing examples | Verified runner probes |
 | --- | --- | ---: | ---: |
-| 4.4.1 | 2.4.1 | 31 | 5 |
-| 4.5.1 | 2.5.1 | 33 | 5 |
+| 4.4.1 | 2.4.1 | 29 | 5 |
+| 4.5.1 | 2.5.1 | 31 | 5 |
 
 The two additional 4.5.1 cases verify inline and dynamic `ArgumentsDisplayName`
 through discovered names and executed arguments. Their source is conditionally
@@ -168,6 +171,9 @@ jb inspectcode MSTestExtensions.slnx --no-build --severity=SUGGESTION --format=X
 The solution includes the intentionally failing probe executable; use the
 verifiers above for execution rather than treating a whole-solution test
 failure as an unexpected regression.
+
+The probe verifier also checks seven original declaration locations through native
+JSON discovery and resolves the child assembly through MSBuild TargetPath.
 
 The probe executable deliberately returns exit 2: three failures must preserve
 their original messages, one result is inconclusive, and one condition skips its

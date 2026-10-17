@@ -5,7 +5,8 @@ description: >-
   custom data attributes, combinatorial providers, assertions, execution
   attributes, conditions, fixtures, and test filters. Use for MSTest extension
   design, API questions, conceptual planning before a project or package version
-  is selected, and migration to MSTest. Ordinary application changes and running
+  is selected, unit/integration/end-to-end test composition, shared test support,
+  and migration to MSTest. Ordinary application changes and running
   an unchanged test command are outside this workflow.
 ---
 
@@ -14,6 +15,12 @@ description: >-
 Build the requested capability with the consuming project's MSTest APIs. Start
 with built-in behavior; create an extension when it removes repeated complexity
 or expresses a domain contract.
+
+Identify the test's boundary before choosing fixtures or verification. Unit,
+integration, end-to-end and shared-helper projects have different resource and
+delivery contracts; their names are hints rather than proof. Use
+[test scopes](references/test-scopes.md) for a multi-project suite, base/derived
+lifecycle, child runners, build metadata or a reflection-based workaround.
 
 ## Establish the API and execution contract
 

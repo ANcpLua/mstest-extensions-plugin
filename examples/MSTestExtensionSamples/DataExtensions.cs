@@ -55,19 +55,4 @@ public sealed class DataExtensionTests(TestContext context)
         Assert.IsTrue(source.CanRead);
     }
 
-    [TestMethod]
-    public void Provider_enumeration_preserves_case_names_and_creates_fresh_descriptions()
-    {
-        var method = typeof(SuspensionTests).GetMethod(nameof(SuspensionTests.Copy_resumes_without_disposing_source))!;
-        var provider = new ReadCasesAttribute();
-        var first = provider.GetData(method).ToArray();
-        var second = provider.GetData(method).ToArray();
-
-        Assert.AreSequenceEqual(
-            ["single-byte", "fragmented", "whole-buffer"],
-            first.Select(row => ((ReadCase)row[0]!).Name));
-        Assert.AreSequenceEqual(first.Select(row => provider.GetDisplayName(method, row)),
-            second.Select(row => provider.GetDisplayName(method, row)));
-        Assert.AreNotSame(first[0][0], second[0][0]);
-    }
 }

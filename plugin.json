@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mstest-extensions",
-  "version": "3.0.1",
-  "description": "Plan, explain, implement and verify MSTest tests and extensions, using version-specific APIs when a consumer is available and bounded guidance when versions are unresolved.",
+  "version": "3.2.0",
+  "description": "Plan, implement and verify MSTest unit, integration and end-to-end tests, shared fixtures and extensions, using the consumer's resolved APIs and supported build metadata.",
   "author": {
     "name": "ANcpLua"
   },

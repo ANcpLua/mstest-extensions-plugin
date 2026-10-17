@@ -45,6 +45,10 @@ Follow the package's `.nuspec` repository commit or a verified release tag.
 Read shipped and unshipped public API files for the relevant assembly and target,
 then the implementation when behavior matters. Check signature changes and
 experimental annotations; hosted current docs may describe a later release.
+Include obsolete annotations in that check; an API listing's member name alone
+does not establish that the member is usable. Store downloaded source outside
+the consumer's compile globs or as non-source text. The inspector uses MSBuild
+and NuGet assets; runtime reflection is not needed to infer the build configuration.
 
 Treat a user-supplied delta as a change index. Check its base/head and package
 pins: a branch named for 4.5.1 can contain API notes while its projects still run

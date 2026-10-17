@@ -1,9 +1,54 @@
 """Verify intentional MSTest failures through the real runner and its TRX report."""
 import os
+import json
+import re
 from pathlib import Path
 import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
+
+
+def verify_navigation(root, output, environment):
+    target = subprocess.run(
+        ["dotnet", "msbuild", "examples/MSTestExtensionSamples/MSTestExtensionSamples.csproj",
+         "-property:Configuration=Release", "-getProperty:TargetPath"],
+        cwd=root, env=environment, text=True, stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, timeout=120)
+    (output / "sample-target-path.log").write_text(target.stdout)
+    assembly = Path(target.stdout.strip())
+    if target.returncode != 0 or not assembly.is_file():
+        raise SystemExit(f"Could not resolve the built sample through MSBuild: {target.stdout}")
+    result = subprocess.run(
+        ["dotnet", str(assembly), "--list-tests", "json"],
+        cwd=root, env=environment, text=True, stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, timeout=120)
+    (output / "sample-discovery.json").write_text(result.stdout)
+    if result.returncode != 0:
+        raise SystemExit(f"Sample discovery failed: {result.stdout}")
+    tests = json.loads(result.stdout)["tests"]
+    expected = {
+        "Class_wrapper_preserves_data_arguments": ("ComposedExecutionTests", 2),
+        "Wrapper_preserves_initialization_and_data": ("ExecutionExtensionTests", 1),
+        "Broken_optional_diagnostics_preserve_the_original_failure": ("ExecutionExtensionTests", 3),
+        "Exclude_mode_is_applied_by_the_framework": ("ExecutionExtensionTests", 1),
+    }
+    for method, (test_class, count) in expected.items():
+        source = root / "examples/MSTestExtensionSamples" / f"{test_class}.cs"
+        lines = source.read_text().splitlines()
+        method_line = next(index for index, line in enumerate(lines)
+                           if re.search(r"\bpublic\b.*\b" + re.escape(method) + r"\s*\(", line))
+        declaration = max(index + 1 for index, line in enumerate(lines[:method_line])
+                          if re.match(r"\s*\[(?:TestMethod|DiagnosticTestMethod)(?:\]|\()", line))
+        rows = [test for test in tests if test["type"]["typeName"] == test_class
+                and test["type"]["methodName"] == method]
+        if len(rows) != count:
+            raise SystemExit(f"Expected {count} native rows for {method}, found {len(rows)}")
+        for row in rows:
+            location = row["location"]
+            if (Path(location["file"]).resolve() != source.resolve()
+                    or location["lineStart"] != declaration or location["lineEnd"] != declaration):
+                raise SystemExit(f"Discovery lost the original declaration for {method}: {location}")
+    print("Verified 7 native row locations for ordinary, method-level and class-composed execution.")
 
 
 def main():
@@ -28,6 +73,7 @@ def main():
             raise SystemExit(f"{label}: expected exit {expected_exit}, got {result.returncode}\n"
                              f"{result.stdout}\nEvidence: {output}")
 
+    verify_navigation(root, output, environment)
     report = output / "probes.trx"
     ns = {"t": "http://microsoft.com/schemas/VisualStudio/TeamTest/2010"}
     document = ET.parse(report)

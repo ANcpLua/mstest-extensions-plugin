@@ -1,5 +1,9 @@
 # Fresh-chat automatic selection evaluation
 
+The [3.0.1 audit](3.0.1.md) records the interrupted patch evaluation, including
+the initial activation miss and corrected failures. Raw artifacts were removed
+after retaining compact evidence. No new model run is claimed for 3.2.0.
+
 The [3.0.0 evaluation](3.0.0.md) records five scenarios, including a retained
 activation miss. Reusable prompts and expected checks are in [cases.json](cases.json).
 
@@ -103,6 +107,6 @@ navigation guidance; the installed skill contents did not need another edit.
 This is one positive request on one host. It does not measure activation rates,
 false positives, alternate wording, other models, or cloud-only ChatGPT chats.
 Source navigation is checked through runner discovery metadata; opening each
-test in Rider's UI is a separate check. Raw local tool traces, generated code,
-and test reports are retained in ignored artifacts rather than installed with
-the skill.
+test in Rider's UI is a separate check. Raw local tool traces, generated code and test reports were removed during the
+3.2.0 cleanup. The compact recorded findings and conversation identities remain;
+they are historical evidence rather than a new host evaluation.

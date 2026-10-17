@@ -1,5 +1,9 @@
 # Fresh-chat evaluation with memory disabled
 
+Archive note (3.2.0): the findings below are historical. Local raw artifacts
+were removed at the owner's request; retained conversation records identify the
+original runs.
+
 This follow-up evaluates the installed 1.0.1 plugin with no injected memory,
 inherited conversation turns, or supplied navigation answer. It uses the same
 [coding request](prompt.txt) and [starter project](fixture) as the original

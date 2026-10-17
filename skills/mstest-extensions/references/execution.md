@@ -9,8 +9,9 @@ on a test method, expose optional `[CallerFilePath]` / `[CallerLineNumber]`
 constructor parameters and forward those parameters to the base constructor.
 The compiler captures the attribute's declaration site for discovery.
 Prefer `await base.ExecuteAsync(testMethod)` for a method-level wrapper.
-If manually invoking once, use
-`await testMethod.InvokeAsync(testMethod.Arguments)` and return its result.
+`ITestMethod.InvokeAsync` is a public invocation API for a deliberately distinct
+executor; it is not needed to reproduce the base executor in an ordinary
+decorator. For class composition, delegate to the supplied original attribute.
 
 Never invoke `MethodInfo` directly: that bypasses MSTest's invocation handling.
 An assertion failure can be represented by a returned `TestResult`; a
