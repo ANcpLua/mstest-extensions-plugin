@@ -5,6 +5,9 @@ description: "Assess the strength and meaning of existing MSTest assertions with
 
 # Assess assertion strength
 
+The [opinionated native stack](../mstest-extensions/references/native-stack.md)
+is MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and Microsoft.CodeCoverage.
+
 Follow the executed check through helpers and child reports before deciding it
 verifies nothing. Use resolved MSTest semantics; native 4.5.1 / MTP 2.5.1 is the
 checked baseline. This is a focused assertion review, not a coverage campaign.

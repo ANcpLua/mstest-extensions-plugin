@@ -5,6 +5,9 @@ description: "Review MSTest tests for false confidence, flakiness, ownership and
 
 # Review MSTest tests
 
+The [opinionated native stack](../mstest-extensions/references/native-stack.md)
+is MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and Microsoft.CodeCoverage.
+
 Read the named tests, their helpers and only the production context that changes
 the verdict. Determine the actual runner and dependency boundary. Native MSTest
 4.5.1 / MTP 2.5.1 is the checked baseline, with the consumer's resolved stack

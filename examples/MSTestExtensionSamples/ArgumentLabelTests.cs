@@ -1,4 +1,3 @@
-#if MSTEST_ARGUMENT_LABELS
 namespace MSTestExtensionSamples;
 
 [TestClass]
@@ -23,4 +22,3 @@ public sealed class ArgumentLabelTests
         Assert.AreEqual(bytes, System.Text.Encoding.UTF8.GetByteCount(text));
     }
 }
-#endif

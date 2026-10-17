@@ -6,8 +6,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsPackable>false</IsPackable>
     <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
-    <TestingExtensionsProfile>None</TestingExtensionsProfile>
-    <EnableMicrosoftTestingExtensionsTrxReport>true</EnableMicrosoftTestingExtensionsTrxReport>
+    <TestingExtensionsProfile>AllMicrosoft</TestingExtensionsProfile>
     <EvidenceMSTestVersion>4.5.1</EvidenceMSTestVersion>
   </PropertyGroup>
 </Project>

@@ -6,8 +6,6 @@
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
-    <TestingExtensionsProfile>None</TestingExtensionsProfile>
-    <!-- Argument labels and native invocation context are absent from 4.4.1. -->
-    <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(MSTestVersion)', '4.5.1'))">$(DefineConstants);MSTEST_ARGUMENT_LABELS;MSTEST_NATIVE_CONTEXT</DefineConstants>
+    <TestingExtensionsProfile>AllMicrosoft</TestingExtensionsProfile>
   </PropertyGroup>
 </Project>

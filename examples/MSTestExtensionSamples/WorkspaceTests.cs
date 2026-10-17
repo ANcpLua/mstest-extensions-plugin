@@ -3,6 +3,11 @@ namespace MSTestExtensionSamples;
 [TestClass]
 public sealed class WorkspaceTests(TestContext context)
 {
+    private const string WorkspacePrefix = "mstest-extensions-";
+    private const string FileName = "value.txt";
+    private const string InitialValue = "fresh";
+    private const string FirstRowValue = "alpha";
+    private const string SecondRowValue = "beta";
     private string? _directory;
     private int _initializations;
 
@@ -10,10 +15,10 @@ public sealed class WorkspaceTests(TestContext context)
     public async Task Initialize()
     {
         Assert.AreEqual(1, ++_initializations, "Each data row must have its own test instance.");
-        _directory = Directory.CreateTempSubdirectory("mstest-extensions-").FullName;
+        _directory = Directory.CreateTempSubdirectory(WorkspacePrefix).FullName;
         try
         {
-            await File.WriteAllTextAsync(Path.Combine(_directory, "value.txt"), "fresh", context.CancellationToken);
+            await File.WriteAllTextAsync(Path.Combine(_directory, FileName), InitialValue, context.CancellationToken);
         }
         catch
         {
@@ -34,12 +39,12 @@ public sealed class WorkspaceTests(TestContext context)
     }
 
     [TestMethod]
-    [DataRow("alpha")]
-    [DataRow("beta")]
+    [DataRow(FirstRowValue)]
+    [DataRow(SecondRowValue)]
     public async Task Each_row_receives_an_isolated_workspace(string value)
     {
-        var file = Path.Combine(_directory!, "value.txt");
-        Assert.AreEqual("fresh", await File.ReadAllTextAsync(file, context.CancellationToken));
+        var file = Path.Combine(_directory!, FileName);
+        Assert.AreEqual(InitialValue, await File.ReadAllTextAsync(file, context.CancellationToken));
         await File.WriteAllTextAsync(file, value, context.CancellationToken);
         Assert.AreEqual(value, await File.ReadAllTextAsync(file, context.CancellationToken));
     }

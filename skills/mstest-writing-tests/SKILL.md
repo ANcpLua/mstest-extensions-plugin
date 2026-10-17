@@ -5,6 +5,9 @@ description: "Write, modernize or correct MSTest test methods, data rows, assert
 
 # Write native MSTest tests
 
+The [opinionated native stack](../mstest-extensions/references/native-stack.md)
+is MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and Microsoft.CodeCoverage.
+
 Use MSTest 4.5.1 / Microsoft.Testing.Platform 2.5.1 as the checked baseline.
 For an existing consumer, its resolved packages and normal runner determine the
 available APIs. [Version resolution](../mstest-extensions/references/version-resolution.md)

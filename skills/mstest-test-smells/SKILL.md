@@ -5,6 +5,9 @@ description: "Assess MSTest tests using formal named test-smell categories when 
 
 # Assess formal test smells
 
+The [opinionated native stack](../mstest-extensions/references/native-stack.md)
+is MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and Microsoft.CodeCoverage.
+
 Use this workflow when the request calls for formal categories or taxonomy.
 Inspect the actual MSTest tests and relevant helpers; use the consumer's API
 semantics rather than another framework's idioms. The checked native baseline

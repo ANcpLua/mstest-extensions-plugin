@@ -6,8 +6,7 @@
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <MSTestAnalysisMode>Recommended</MSTestAnalysisMode>
-    <TestingExtensionsProfile>None</TestingExtensionsProfile>
-    <EnableMicrosoftTestingExtensionsTrxReport>true</EnableMicrosoftTestingExtensionsTrxReport>
+    <TestingExtensionsProfile>AllMicrosoft</TestingExtensionsProfile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../MSTestExtensionSamples/MSTestExtensionSamples.csproj" />

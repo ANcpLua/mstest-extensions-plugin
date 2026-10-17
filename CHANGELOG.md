@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.2.3 — 2026-10-17
+
+- Make the native stack explicit in plugin metadata and all skill entrypoints:
+  MSTest.Sdk 4.5.1, MSTest 4.5.1, MTP 2.5.1, AllMicrosoft and Microsoft.CodeCoverage.
+- Remove older-version compilation branches and the copied invocation token;
+  compare constructor injection directly with native TestContext.Current.
+- Name workspace row values and shared file/setup strings with const fields.
+- Use SDK-owned extension registration in AllMicrosoft examples and assets;
+  retain Native AOT as an independently verified publication mode.
+- Correct the argument-label verifier so it actually checks both display names.
+
 ## 3.2.2 — 2026-10-17
 
 - Move Qyl-specific producer, receiver and project-boundary guidance out of the

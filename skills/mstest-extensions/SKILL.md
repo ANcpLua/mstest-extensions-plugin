@@ -1,6 +1,7 @@
 ---
 name: mstest-extensions
 description: >-
+  Build native MSTest.Sdk 4.5.1 / MTP 2.5.1 extensions with AllMicrosoft.
   Plan, explain, implement, review, or troubleshoot reusable MSTest extensions:
   custom data attributes, combinatorial providers, assertions, execution
   attributes, conditions, fixtures, and test filters. Use for MSTest extension
@@ -13,7 +14,12 @@ description: >-
 
 # MSTest testing and extensions
 
-Build the requested capability with the consuming project's MSTest APIs. Start
+Use the [opinionated native stack](references/native-stack.md): MSTest.Sdk 4.5.1,
+MSTest 4.5.1, MTP 2.5.1, `AllMicrosoft` and Microsoft.CodeCoverage. Let the SDK
+configure its runner and extensions. Use native context and lifecycle APIs rather
+than implementing copies or older-version fallback branches.
+
+Build the requested capability with the consuming project's resolved MSTest APIs. Start
 with built-in behavior; create an extension when it removes repeated complexity
 or expresses a domain contract.
 

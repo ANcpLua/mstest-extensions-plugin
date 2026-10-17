@@ -2,7 +2,9 @@
 
 A portable plugin with eight focused skills for native MSTest testing. Choose the
 workflow matching the request; references load only when that task needs them.
-The native baseline is **MSTest 4.5.1 / Microsoft.Testing.Platform 2.5.1**.
+The opinionated stack is **MSTest.Sdk 4.5.1 / MSTest 4.5.1**, native
+**Microsoft.Testing.Platform 2.5.1**, **AllMicrosoft** and
+**Microsoft.CodeCoverage**, with the target framework's default C# version.
 MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 
 | Skill | Use it for |
@@ -16,7 +18,7 @@ MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 | [mstest-test-gaps](skills/mstest-test-gaps/SKILL.md) | Caller-visible outcomes the current tests would miss. |
 | [mstest-native-aot](skills/mstest-native-aot/SKILL.md) | Generated invocation, trimming and published Native AOT consumers. |
 
-The package includes 13 shared references, scripts and executable assets.
+The package includes 14 shared references, scripts and executable assets.
 Skills have separate triggers and outputs; they do not load all siblings for
 every test request. This follows the official
 [skill and plugin guidance](https://learn.chatgpt.com/docs/skills-and-plugins?site_locale=en)
@@ -103,6 +105,14 @@ Scope correction (3.2.2): the portable package contains eight generic skills and
 the distinctions among its four projects now live in the consuming repository's
 local skill. The unit-generation isolation advice stays scoped to unit tests.
 
+Native stack checkpoint (3.2.3): the examples use AllMicrosoft and native 4.5.1
+APIs without compatibility compilation branches or a copied invocation token.
+The 31 examples, five outcome probes and seven declaration-location checks pass.
+Runner policies, real hosting and published managed/Native AOT consumers pass
+with AllMicrosoft. Scoped inspection reports zero findings. The eight skills,
+111 local links and 44-file package validate. The plugin description explicitly
+records the chosen SDK, platform, extension profile and coverage provider.
+
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
 version-specific and do not establish fresh model behavior for later releases.
@@ -111,7 +121,7 @@ version-specific and do not establish fresh model behavior for later releases.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skills and their references without an MCP server or external
-service dependency. Version 3.2.2 preserves automatic invocation for relevant
+service dependency. Version 3.2.3 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
@@ -157,24 +167,23 @@ discovery, behavior, original failure reports, changed API fingerprints and
 reuse of unchanged evidence. Consumer projects are not modified.
 
 ```sh
-python3 scripts/verify_versions.py 4.4.1 4.5.1
+python3 scripts/verify_versions.py 4.5.1
 python3 scripts/test_inspect.py
 python3 scripts/test_install.py
 python3 scripts/check_links.py
 ```
 
 Pass another exact SDK version to the same verifier when updating. CI runs the
-recorded versions on pushes and supports a manually selected version. It does
+native 4.5.1 baseline on pushes and supports a manually selected version. It does
 not claim compatibility until that version's checks pass.
 
 | SDK / framework / adapter | MTP | Passing examples | Verified runner probes |
 | --- | --- | ---: | ---: |
-| 4.4.1 | 2.4.1 | 29 | 5 |
 | 4.5.1 | 2.5.1 | 31 | 5 |
 
-The two additional 4.5.1 cases verify inline and dynamic `ArgumentsDisplayName`
-through discovered names and executed arguments. Their source is conditionally
-compiled because 4.4.1 lacks those APIs. Shared examples cover custom data,
+Two cases verify inline and dynamic `ArgumentsDisplayName` through discovered
+names and executed arguments. Their source uses native 4.5.1 APIs directly.
+Shared examples cover custom data,
 assertion rejection, conditions, execution attributes, diagnostic failure,
 async suspension/cancellation and per-row resource isolation. Recommended MSTest
 analyzers remain enabled and warnings are errors.
@@ -184,7 +193,8 @@ method attributes and tests with a class-created execution wrapper. Navigation
 comes from the original declared attribute; the wrapper factory copies no caller
 metadata and requires no `ExplicitCallerInfoArgument` suppression. On 4.5.1,
 the internal executor declares its experimental dependency and reads the native
-invocation token; the existing rows compare it with constructor-injected context. The failure
+invocation token; the existing rows compare native context identity with
+constructor injection. The failure
 probe project references the example assembly, exercising the same extension
 implementation rather than compiling another copy.
 
@@ -235,7 +245,7 @@ quality or trigger reliability for later releases across models, prompts or host
 ## Sources
 
 The initial examples were authored using the supplied MSTest 4.4.1 capability
-suite. The [4.5.1 API notes](https://github.com/ANcpLua/MSTest-4.4.1/tree/scout/mstest-4.5.1/delta/4.5.1)
+suite (historical provenance; the current examples no longer target 4.4.1). The [4.5.1 API notes](https://github.com/ANcpLua/MSTest-4.4.1/tree/scout/mstest-4.5.1/delta/4.5.1)
 guided the update; the sample suite on that branch still pins 4.4.1, so published
 4.5.1 packages were resolved and tested separately. Framework source is
 [microsoft/testfx](https://github.com/microsoft/testfx), with per-package commits

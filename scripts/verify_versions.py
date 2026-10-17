@@ -33,6 +33,8 @@ def main():
     for version in args.versions:
         if not re.fullmatch(r"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?", version):
             raise SystemExit(f"Use an exact package version: {version}")
+        if tuple(map(int, version.split("-", 1)[0].split("."))) < (4, 5, 1):
+            raise SystemExit("These native-only examples require MSTest.Sdk 4.5.1 or later.")
         evidence = output / version
         evidence.mkdir()
         with tempfile.TemporaryDirectory(prefix="mstest-compat-") as temporary:
@@ -45,14 +47,13 @@ def main():
             (workspace / "global.json").write_text(json.dumps(config, indent=2) + "\n")
             command = ["dotnet", "test", "--project", "examples/MSTestExtensionSamples", "-c", "Release"]
             discovery = execute(command + ["--list-tests"], workspace, evidence / "discovery.log")
-            count = 31 if tuple(map(int, version.split("-", 1)[0].split("."))) >= (4, 5, 1) else 29
+            count = 31
             if not re.search(rf"Discovered {count} tests\.", discovery):
                 raise SystemExit(f"Expected {count} discovered cases for {version}; see {evidence}")
-            if count == 33:
-                for display in ["Inline_label_keeps_method_name (inline-label)",
-                                "Dynamic_label_keeps_method_name (dynamic-label)"]:
-                    if display not in discovery:
-                        raise SystemExit(f"Missing argument display label {display}: {evidence}")
+            for display in ["Inline_label_keeps_method_name (inline-label)",
+                            "Dynamic_label_keeps_method_name (dynamic-label)"]:
+                if display not in discovery:
+                    raise SystemExit(f"Missing argument display label {display}: {evidence}")
             execute(command + ["--minimum-expected-tests", str(count)], workspace, evidence / "execution.log")
             execute([sys.executable, "scripts/verify_mstest_probes.py"], workspace, evidence / "probes.log")
             shutil.copytree(workspace / "artifacts/mstest-probes", evidence / "probes")
