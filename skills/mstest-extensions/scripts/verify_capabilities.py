@@ -153,7 +153,7 @@ def main():
     (workspace / "NuGet.Config").write_text('<configuration><packageSources><clear/><add key="nuget.org" value="https://api.nuget.org/v3/index.json"/></packageSources></configuration>\n')
     environment = {**os.environ, "DOTNET_CLI_UI_LANGUAGE": "en", "DOTNET_NOLOGO": "1", "MSBUILDDISABLENODEREUSE": "1"}
     for key in list(environment):
-        if key.startswith(("OTEL_", "QYL_", "MSTEST_EVIDENCE_")): del environment[key]
+        if key.startswith(("OTEL_", "MSTEST_EVIDENCE_")): del environment[key]
     environment["MSTEST_EVIDENCE_JOURNAL"] = str(output / "bootstrap-journal.jsonl")
     command(["dotnet", "--info"], workspace, output / "dotnet-info.log", environment)
     policies = workspace / "Policies/Policies.csproj"

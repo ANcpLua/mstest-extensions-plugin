@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.2.2 — 2026-10-17
+
+- Move Qyl-specific producer, receiver and project-boundary guidance out of the
+  portable plugin and into the consuming repository's local skill.
+- Retain eight generic MSTest skills, including Native AOT and the six adapted
+  test-quality workflows. Keep the unit-agent isolation advice scoped to units.
+- Retain general telemetry contract lessons without a Qyl dependency or naming
+  a particular implementation in portable guidance.
+
 ## 3.2.1 — 2026-10-17
 
 - Split the six adapted test-writing/review workflows into focused skills using

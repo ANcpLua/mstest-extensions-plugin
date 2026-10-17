@@ -14,6 +14,10 @@ Identify whether the behavior is pure logic, interacting components, a whole
 application or a packaged consumer. The boundary determines the fixture and
 observable outcome. [Scope guidance](../mstest-extensions/references/test-scopes.md)
 also covers shared helpers, native base/derived lifecycle and child runners.
+Unit-generation advice to isolate external dependencies applies to units.
+Integration and end-to-end cases retain the real boundary they claim to verify.
+Before adding a new case/project, establish its normal repository discovery and
+CI entrypoint; a standalone green run does not prove that entrypoint finds it.
 
 Use `[TestMethod]` with native `[DataRow]` for independently selectable constant
 cases; typed `[DynamicData]` fits computed data. Framework expansion preserves

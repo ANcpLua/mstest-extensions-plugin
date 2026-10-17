@@ -1,6 +1,6 @@
 # MSTest Extensions plugin
 
-A portable plugin with nine focused skills for native MSTest testing. Choose the
+A portable plugin with eight focused skills for native MSTest testing. Choose the
 workflow matching the request; references load only when that task needs them.
 The native baseline is **MSTest 4.5.1 / Microsoft.Testing.Platform 2.5.1**.
 MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
@@ -15,7 +15,6 @@ MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 | [mstest-assertion-review](skills/mstest-assertion-review/SKILL.md) | Focused report-only analysis of assertion meaning. |
 | [mstest-test-gaps](skills/mstest-test-gaps/SKILL.md) | Caller-visible outcomes the current tests would miss. |
 | [mstest-native-aot](skills/mstest-native-aot/SKILL.md) | Generated invocation, trimming and published Native AOT consumers. |
-| [mstest-qyl-telemetry](skills/mstest-qyl-telemetry/SKILL.md) | Qyl public instrumentation and concrete telemetry contracts. |
 
 The package includes 13 shared references, scripts and executable assets.
 Skills have separate triggers and outputs; they do not load all siblings for
@@ -69,10 +68,10 @@ scenario names. [Protocol examples](skills/mstest-extensions/references/telemetr
 remain available when that boundary is in scope.
 
 The AOT workflow distinguishes generated discovery, direct invocation, managed
-fallback and actual Native AOT execution. The Qyl workflow uses the public
-`AddQyl` host setup, published conventions and receiver types. It preserves Qyl's
-legitimate internal SDK instrumentation ownership rather than introducing a
-second consumer pipeline. Neither skill silently upgrades consumer packages.
+fallback and actual Native AOT execution. Repository-specific telemetry stacks
+and project placement belong to local repository guidance. The shared plugin
+keeps native testing mechanisms and general contract examples independent of
+a particular producer, receiver or storage implementation.
 
 Native cancellation, base/derived lifecycle, sequential versus concurrent work,
 shared versus per-invocation resources, typed enum selectors and named string
@@ -99,15 +98,20 @@ created. The native runner/hosting/AOT fixtures are unchanged from the passing
 3.2.0 CI run. The new skill descriptions have not had a fresh-chat selection
 evaluation; historical evaluations remain evidence for their recorded versions.
 
+Scope correction (3.2.2): the portable package contains eight generic skills and
+43 files, with 101 local links checked. Qyl-specific registration, packages and
+the distinctions among its four projects now live in the consuming repository's
+local skill. The unit-generation isolation advice stays scoped to unit tests.
+
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
-version-specific and do not establish fresh model behavior for 3.2.1.
+version-specific and do not establish fresh model behavior for later releases.
 
 ## Installation
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skills and their references without an MCP server or external
-service dependency. Version 3.2.1 preserves automatic invocation for relevant
+service dependency. Version 3.2.2 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
@@ -120,7 +124,7 @@ Build an account-upload archive with:
 python3 scripts/package_plugin.py --output /tmp/mstest-extensions.zip
 ```
 
-The archive contains `plugin.json` and all nine directories under `skills/`. Upload it
+The archive contains `plugin.json` and all eight directories under `skills/`. Upload it
 through Plugin Creator, then install the returned plugin in the intended account.
 After confirming installation, remove a duplicate standalone installation of
 the same skill from that host's discovery directory. Keep one active source.
@@ -137,7 +141,7 @@ python3 scripts/install.py
 python3 scripts/install.py --claude
 ```
 
-The default links all nine skills under `~/.agents/skills` for Codex. `--claude`
+The default links all eight skills under `~/.agents/skills` for Codex. `--claude`
 also links them under `~/.claude/skills`. All destinations are checked before any
 link is created; existing unrelated destinations are preserved. Use `--agents-dir` / `--claude-dir` for custom discovery roots.
 

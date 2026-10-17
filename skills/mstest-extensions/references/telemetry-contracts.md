@@ -18,7 +18,7 @@ An `Activity` tag test does not prove persistence. A collector test supplied wit
 synthetic payloads does not prove the producer emitted them. Ingestion dropping
 and read-time redaction are separate protections; neither proves the other.
 Use the corresponding real DTOs and entrypoints at each boundary. For example,
-a Qyl producer can use AutoInstrumentation and SemanticConventions without
+a producer can use its instrumentation and published conventions without
 depending on collector storage types; a storage integration test should inspect
 the actual collector payload and row instead of a lookalike local model.
 

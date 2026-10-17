@@ -7,7 +7,7 @@ description: >-
   design, API questions, conceptual planning before a project or package version
   is selected, shared test support and native execution composition. Concrete
   test-method edits, report-only test-quality reviews and dedicated Native AOT
-  or Qyl telemetry work have focused sibling skills. Ordinary application
+  work have focused sibling skills. Ordinary application
   changes and running an unchanged test command are outside this workflow.
 ---
 
