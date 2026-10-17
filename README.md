@@ -1,10 +1,19 @@
-# MSTest extensions skill
+# MSTest Extensions plugin
 
 A portable plugin containing one skill for implementing MSTest data providers, combinatorial inputs,
 assertions, execution attributes, conditions/retries, fixtures and test filters.
 It routes runner, hosting and source-generation work to the relevant APIs.
 
-Start at [SKILL.md](skills/mstest-extensions/SKILL.md).
+Start at [SKILL.md](skills/mstest-extensions/SKILL.md). The package contains one
+skill, 11 reference documents, scripts and executable assets. References support
+the skill and load when relevant; they are not separate skills. Keep workflows
+together while their user goal and activation conditions agree, and split them
+when their triggers, inputs or success criteria differ. See the official
+[skill guidance](https://developers.openai.com/plugins/build/skills).
+
+The repository is `mstest-extensions-plugin`; the stable plugin identifier and
+skill name remain `mstest-extensions`. The display name is **MSTest Extensions**.
+See [CHANGELOG.md](CHANGELOG.md) for releases.
 
 ## Staying current
 
@@ -36,7 +45,7 @@ hardcoded support ceiling or guarantees for future releases.
 
 ## Current maintenance
 
-Version 1.2.1 integrates six upstream review topics into the existing skill:
+The skill integrates six review topics:
 smell detection, practical anti-pattern review, MSTest writing, test-value
 evidence, assertion quality and gap analysis. The
 [quality reference](skills/mstest-extensions/references/test-quality.md) separates
@@ -56,23 +65,23 @@ The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
 sequential versus concurrent work, shared versus per-invocation cancellation,
 and generated-discovery versus executed Native AOT evidence explicit.
 
-Checkpoint (2026-10-17): private account plugin 1.2.1 is saved and read back.
-All 27 uploaded files match source, all 28 remote paths are retained, and the
-generated compatibility manifest is synchronized. Package integrity, JSON/YAML
-metadata and 61 local Markdown links pass.
-Existing 4.4.1/4.5.1 execution and zero-finding inspection results remain valid:
-this release changes guidance and metadata, not executable examples. A
-current-host reload and fresh model-selection evaluation are unverified.
+Checkpoint (2026-10-17): the repository is now
+`ANcpLua/mstest-extensions-plugin`. Private account release 3.0.0 is saved and
+read back: all 27 uploaded files match source and all 28 remote paths are
+preserved, including the synchronized compatibility manifest. Package integrity
+and 62 local Markdown links pass. GitHub release and fresh evaluations are
+pending. The unchanged skill, scripts and executable fixtures retain their
+existing 4.4.1/4.5.1 execution and zero-finding inspection evidence.
 
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
-reviewed evidence remain below. Plugin model-selection evaluations are separate
-historical evidence; this update does not request or rerun them.
+reviewed evidence remain below. Historical model-selection evaluations are
+version-specific and do not establish behavior for 3.0.0.
 
 ## Installation
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 1.2.1 preserves automatic invocation for relevant
+service dependency. Version 3.0.0 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
 record actual selection and navigation behavior separately from the example
@@ -187,7 +196,7 @@ under AOT, Windows UI, browser execution, arbitrary custom attributes or every
 retry/filter policy. The direct executable checks do not claim to fix the
 separate official MSBuild/TRX controller limitation. Fresh-chat evaluations above
 record individual 1.0.1 installed-host requests; they do not establish model
-quality or trigger reliability for 1.1.2 across models, prompts or hosts.
+quality or trigger reliability for later releases across models, prompts or hosts.
 
 ## Sources
 
