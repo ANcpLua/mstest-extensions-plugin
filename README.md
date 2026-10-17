@@ -65,16 +65,14 @@ The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
 sequential versus concurrent work, shared versus per-invocation cancellation,
 and generated-discovery versus executed Native AOT evidence explicit.
 
-Checkpoint (2026-10-17): repository rename and the
-[GitHub 3.0.0 release](https://github.com/ANcpLua/mstest-extensions-plugin/releases/tag/v3.0.0)
-are complete. Its downloaded archive matches the uploaded bytes. Private account
-release 3.0.0 is saved and read back: all 27 uploaded files match source and all
-28 remote paths are preserved. A fresh host loads 3.0.0 and all 26 installed skill
-files match source. [Release CI](https://github.com/ANcpLua/mstest-extensions-plugin/actions/runs/39030969563)
-passes both recorded versions, runner policies, hosting and published Native AOT
-consumers. [Fresh evaluations](evals/automatic-discovery/3.0.0.md) met their checks in four
-of five scenarios. Missing-version planning respected its constraints but did
-not activate the skill; that activation finding remains open.
+Checkpoint (2026-10-17): 3.0.1 is prepared locally to address the
+[3.0.0 activation miss](evals/automatic-discovery/3.0.0.md) and unnecessary standalone
+builds. The description now includes planning and explanation without selected
+versions; conceptual guidance preserves that uncertainty, and implementation
+uses the normal test entrypoint to compile and restore. Account 3.0.1 is saved and all 27 uploaded files match read-back; the generated
+compatibility manifest is synchronized. GitHub release and fresh regressions
+are pending. The 3.0.0 release and evaluation remain
+available as historical evidence.
 
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
@@ -84,7 +82,7 @@ version-specific and do not establish behavior for 3.0.0.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
-service dependency. Version 3.0.0 preserves automatic invocation for relevant
+service dependency. Version 3.0.1 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),

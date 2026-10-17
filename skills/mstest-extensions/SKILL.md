@@ -1,12 +1,12 @@
 ---
 name: mstest-extensions
 description: >-
-  Create, adapt, review, or troubleshoot MSTest tests and reusable extensions:
+  Plan, explain, implement, review, or troubleshoot MSTest tests and extensions:
   custom data attributes, combinatorial providers, assertions, execution
-  attributes, conditions, fixtures, and test filters. Use when implementing
-  testing capabilities with MSTest or migrating extensions to MSTest. Ordinary
-  application changes and running an unchanged test command are outside this
-  workflow.
+  attributes, conditions, fixtures, and test filters. Use for MSTest extension
+  design, API questions, conceptual planning before a project or package version
+  is selected, and migration to MSTest. Ordinary application changes and running
+  an unchanged test command are outside this workflow.
 ---
 
 # MSTest testing and extensions
@@ -17,7 +17,14 @@ or expresses a domain contract.
 
 ## Establish the API and execution contract
 
-Read the project's instructions, package/SDK pins, target frameworks,
+For conceptual planning without a consumer project or selected versions, read
+the relevant topic reference and explain the mechanisms and contracts that need
+version-specific verification. State what remains unresolved; do not create a
+project or restore packages just to answer a conceptual question. Give verified
+signatures or executable claims only when the required evidence exists.
+
+For implementation or claims about a specific consumer, read its instructions,
+package/SDK pins, target frameworks,
 `global.json`, and existing tests. Identify MSTest.TestFramework, the adapter,
 MSTest.Sdk if used, and whether the entrypoint runs Microsoft.Testing.Platform
 (MTP) or VSTest. Preserve the consumer's versions, runner, and coverage provider
@@ -114,8 +121,13 @@ parallel-default assumptions into MSTest.
 ## Verify the capability
 
 Discover the affected tests through the consuming project's normal entrypoint;
-check row names and counts, then run the focused cases. Tests already compile
-the code. Reuse passing results while their relevant source, fixtures, packages
+check row names and counts, then run the focused cases. Use the normal test
+entrypoint for the first compilation of changed code, allowing its usual restore
+for newly added projects. A separate build is warranted only when it establishes
+something the test command cannot, such as a required published artifact.
+Resolve assertion overloads and enabled analyzer recommendations before writing
+tests; see [assertions](references/assertions.md). Reuse passing results while
+their relevant source, fixtures, packages
 and configuration are unchanged. Prose-only guidance needs content and package
 checks, not another test run. For a custom assertion, exercise acceptance and rejection. For data
 providers, verify repeatable enumeration and meaningful combinations. For

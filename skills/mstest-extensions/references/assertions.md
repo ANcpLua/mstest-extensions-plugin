@@ -47,6 +47,14 @@ Keep ordered equality and unordered equivalence separate. Use the installed
 version's sequence/span assertions when appropriate; an assertion package
 addition needs a concrete missing capability.
 
+Check the consumer's enabled MSTest analyzers and resolved assertion APIs before
+writing tests. Prefer the installed version's `Assert` string and sequence
+operations over legacy `StringAssert` or `CollectionAssert` equivalents when
+recommended by those analyzers. Establish required non-null values with an
+assertion before using them, and pass the native test cancellation token to
+asynchronous operations that support it. Keep compiler and analyzer diagnostics
+visible and correct their causes through the focused test entrypoint.
+
 Use assertions that preserve useful failure diagnostics: expected value first,
 observed value second for equality; confirm the installed signature for bounds
 and comparison APIs rather than copying the expression's operand order. When
