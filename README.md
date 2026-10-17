@@ -65,13 +65,16 @@ The verified 4.5.1/MTP 2.5.1 guidance now makes cross-cutting execution scopes,
 sequential versus concurrent work, shared versus per-invocation cancellation,
 and generated-discovery versus executed Native AOT evidence explicit.
 
-Checkpoint (2026-10-17): the repository is now
-`ANcpLua/mstest-extensions-plugin`. Private account release 3.0.0 is saved and
-read back: all 27 uploaded files match source and all 28 remote paths are
-preserved, including the synchronized compatibility manifest. Package integrity
-and 62 local Markdown links pass. GitHub release and fresh evaluations are
-pending. The unchanged skill, scripts and executable fixtures retain their
-existing 4.4.1/4.5.1 execution and zero-finding inspection evidence.
+Checkpoint (2026-10-17): repository rename and the
+[GitHub 3.0.0 release](https://github.com/ANcpLua/mstest-extensions-plugin/releases/tag/v3.0.0)
+are complete. Its downloaded archive matches the uploaded bytes. Private account
+release 3.0.0 is saved and read back: all 27 uploaded files match source and all
+28 remote paths are preserved. A fresh host loads 3.0.0 and all 26 installed skill
+files match source. [Release CI](https://github.com/ANcpLua/mstest-extensions-plugin/actions/runs/39030969563)
+passes both recorded versions, runner policies, hosting and published Native AOT
+consumers. [Fresh evaluations](evals/automatic-discovery/3.0.0.md) met their checks in four
+of five scenarios. Missing-version planning respected its constraints but did
+not activate the skill; that activation finding remains open.
 
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
@@ -83,7 +86,8 @@ The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skill and its references without an MCP server or external
 service dependency. Version 3.0.0 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
-including a [run with memory disabled](evals/automatic-discovery/without-memory.md),
+including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
+and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
 record actual selection and navigation behavior separately from the example
 suite. Selection remains the agent's decision on each request.
 

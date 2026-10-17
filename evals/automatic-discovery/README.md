@@ -1,5 +1,8 @@
 # Fresh-chat automatic selection evaluation
 
+The [3.0.0 evaluation](3.0.0.md) records five scenarios, including a retained
+activation miss. Reusable prompts and expected checks are in [cases.json](cases.json).
+
 This is a host evaluation of the installed plugin, separate from the deterministic
 sample suite. The prompt and starter project stay outside the packaged skill.
 The original run below kept account memory enabled. A separate
