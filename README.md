@@ -113,6 +113,14 @@ with AllMicrosoft. Scoped inspection reports zero findings. The eight skills,
 111 local links and 44-file package validate. The plugin description explicitly
 records the chosen SDK, platform, extension profile and coverage provider.
 
+Lifecycle guidance checkpoint (3.3.0): resource-lock scheduling, mutation-analyzer
+visibility, optional hosted injection and per-test temporary-directory behavior
+were checked against the installed 4.5.1 package and its exact upstream commit.
+The eight skills, UI metadata, 113 local links and 44-file archive validate.
+Executable fixtures and scripts are unchanged; their dated runtime evidence
+above is retained. No fresh model-selection or runtime-probe result is claimed
+for this guidance-only release.
+
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
 version-specific and do not establish fresh model behavior for later releases.
@@ -121,7 +129,7 @@ version-specific and do not establish fresh model behavior for later releases.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skills and their references without an MCP server or external
-service dependency. Version 3.2.3 preserves automatic invocation for relevant
+service dependency. Version 3.3.0 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),

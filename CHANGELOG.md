@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.3.0 — 2026-10-17
+
+- Match synchronous and asynchronous lifecycle signatures to resource ownership;
+  retain native setup/disposal without importing another framework's interfaces.
+- Clarify resource-lock coverage of instance construction and lifecycle, reader
+  participation, scheduler scope and process-global mutation restoration.
+- Document MSTEST0074's helper-analysis limits, activation and default severity
+  without treating reusable resource helpers as inherently incorrect.
+- Use native per-test temporary directories with their actual ownership and
+  retention contract; require a concrete oracle for configuration defaults.
+- Make optional hosted injection's explicit MTP wiring, experimental status and
+  generated/AOT test-execution restrictions visible in the relevant workflows.
+- Preserve the eight skills, plugin identity, native stack and existing probes.
+
 ## 3.2.3 — 2026-10-17
 
 - Make the native stack explicit in plugin metadata and all skill entrypoints:

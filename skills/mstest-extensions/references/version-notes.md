@@ -15,6 +15,16 @@ compares upstream v4.4.1 and v4.5.1. Its branch still pins the example SDK to
 commits were resolved separately. The covered public surfaces have additions
 and no removals; behavior and packaging also changed.
 
+Lifecycle and global-state details rechecked on 2026-10-17 against the installed
+4.5.1 package and its recorded commit: synchronous versus async ownership,
+lock acquisition before test-instance construction, invocation-based analyzer
+visibility and per-test temporary-directory lifetime. Source pointers:
+[parallel scheduler](https://github.com/microsoft/testfx/blob/0bf77e3aedbf86f1fa16220bc951d3b52ba56763/src/Adapter/MSTestAdapter.PlatformServices/Execution/TestExecutionManager.ParallelExecution.cs),
+[mutation analyzer](https://github.com/microsoft/testfx/blob/0bf77e3aedbf86f1fa16220bc951d3b52ba56763/src/Analyzers/MSTest.Analyzers/UndeclaredProcessGlobalStateMutationAnalyzer.cs),
+[TestContext](https://github.com/microsoft/testfx/blob/0bf77e3aedbf86f1fa16220bc951d3b52ba56763/src/TestFramework/TestFramework.Extensions/TestContext.cs),
+and [hosting package contract](https://github.com/microsoft/testfx/blob/0bf77e3aedbf86f1fa16220bc951d3b52ba56763/src/Adapter/MSTest.Extensions.Hosting/PACKAGE.md).
+See [lifecycle](lifecycle.md) for the task-specific guidance.
+
 Relevant 4.5.1 changes:
 
 - `TestContext.Current` is experimental (`MSTESTEXP`); the matching adapter

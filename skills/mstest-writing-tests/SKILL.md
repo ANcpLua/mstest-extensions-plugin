@@ -35,9 +35,12 @@ the intended behavior independently of its implementation. Required parents,
 results and events are asserted before their properties; conditional checks can
 otherwise hide missing evidence. Async assertions and operations are awaited.
 
-Synchronous construction and native async initialization can coexist. Native
-`TestContext` supplies cancellation. Shared startup has fixture ownership while
-individual tests can cancel their waits. Cleanup releases and joins original
+Match lifecycle signatures to the work: synchronous construction/setup and
+`IDisposable` remain appropriate for synchronous resources; use native async
+initialization and `IAsyncDisposable` for awaited acquisition and teardown.
+These styles can coexist. Native `TestContext` supplies cancellation. Shared
+startup has fixture ownership while individual tests can cancel their waits.
+Cleanup releases and joins original
 work before disposal, including after failed assertions. Sequential dependencies
 remain sequential even in async code; concurrency applies to independent work.
 
@@ -47,6 +50,9 @@ process isolation are the contract; it is not a substitute for an ordinary unit
 test. [Assertions](../mstest-extensions/references/assertions.md),
 [data](../mstest-extensions/references/data.md) and
 [lifecycle](../mstest-extensions/references/lifecycle.md) contain the relevant API details.
+Read lifecycle's process-global state guidance before changing environment
+variables, console streams or parallel resource locks; analyzer silence alone
+does not establish isolation.
 For conversion, capture or privacy changes, use the relevant
 [failure-prevention lesson](../mstest-extensions/references/failure-prevention.md)
 to choose a distinguishing case rather than copying an entire scenario suite.

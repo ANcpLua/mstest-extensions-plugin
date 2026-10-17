@@ -27,6 +27,14 @@ not a prohibition on combining them. Async setup/cleanup can return `Task` or
 helper: a constructor failure leaves no completed instance for test cleanup or
 disposal. A `TestInitialize` failure still runs cleanup and disposal.
 
+Match disposal to the resource: synchronous restoration belongs in `Dispose` or
+a synchronous cleanup hook; awaited shutdown belongs in `DisposeAsync` or an
+async cleanup hook. Returning a completed `ValueTask` solely to make synchronous
+environment/console setup appear asynchronous adds no capability. A genuinely
+async lifecycle may still have a synchronous completion path. The inspected
+MSTest framework has no test-class `IAsyncInitializer` or `IAsyncLifetime`
+contract; do not import another framework's lifecycle interfaces.
+
 MSTest supports `TestContext` injection through the test-class constructor in the
 inspected versions, or the supported property pattern. Obtain cooperative cancellation
 from `TestContext.CancellationToken`; do not assume arbitrary test-method token
@@ -137,6 +145,11 @@ checks data-row and retry isolation with this ownership boundary.
 The inspected integration is experimental and excludes source generation,
 Native AOT and browser/AOT execution. Confirm current constraints and diagnostics
 from the resolved package before using or rejecting it on a newer release.
+`AddMSTestTestClassInjection` must be registered in the application-owned host
+that actually runs MTP. An arbitrary `CreateHostBuilder` method is not that
+connection, and `AllMicrosoft` does not supply constructor service injection by
+itself. The package is separately versioned and prerelease in the inspected
+4.5.1 source; scope its `MSTESTEXP` acknowledgment to the required code.
 See [known version evidence](version-notes.md) for the source of these limits.
 
 ## Parallel execution and ownership
@@ -166,6 +179,35 @@ parallelization, locks cover each test's initialization and cleanup. Locks have
 no effect when parallelization is disabled, and `DoNotParallelize` takes precedence.
 These locks are not cross-process or cross-assembly locks.
 
+Under method-level parallelization the scheduler takes the chunk's locks before
+constructing the test instance. Instance constructors and field initializers are
+therefore covered, as are initialization, execution, cleanup and disposal. That
+guarantee does not cover discovery, static initialization that ran earlier or an
+application host's bootstrap. Under class-level parallelization the chunk is the class;
+method locks are combined for that class, not held just around their methods.
+
+### Process-global mutations and analyzer visibility
+
+For environment variables and console streams, save the prior value under the
+appropriate exclusive lock, restore it before releasing the lock and dispose
+only resources the fixture creates. Reader locks coordinate only with other
+participating readers/writers; reading an unchanged ambient environment does
+not establish that a configuration variable is absent. Prefer explicit inputs
+when the actual behavior does not require process-global mutation.
+
+In the inspected 4.5.1 analyzer, `MSTEST0074` examines mutation invocations in
+recognized tests and fixtures; it does not trace arbitrary helper call graphs.
+Encapsulated resource helpers can still be useful, but their callers need an
+explicit matching lock/isolation contract. Do not hide mutations merely to
+silence a diagnostic or assume that moving them into a helper transfers a lock.
+Direct mutations in recognized lifecycle methods retain analyzer visibility.
+
+The rule defaults to Info and activates when assembly parallelization is
+syntactically enabled, or when `.editorconfig` sets
+`mstest_parallel_safety_mode = always`. Parallelization supplied only by
+runsettings or MSBuild may require that option for analysis. A diagnostic is
+not necessarily a failing build; inspect the consumer's effective severity.
+
 `MSTEST0076` concerns process-wide `DefaultThreadCurrentCulture` and
 `DefaultThreadCurrentUICulture` mutations. On modern .NET, ambient
 `CultureInfo.CurrentCulture`/`CurrentUICulture` flow with the execution context
@@ -174,6 +216,17 @@ and are not equivalent process-wide changes. Shared filesystem paths
 also need isolation. Assembly-local locks or `DoNotParallelize` cannot protect
 process-global state from unrelated concurrently executing assemblies; use
 separate processes when that boundary is required.
+
+### Per-test temporary files
+
+The inspected `TestContext.TestTempDirectory` is created lazily and gives each
+test/data case its own directory. Prefer it for invocation-owned files when
+supported by the resolved runner. It is unavailable outside a test, including
+class/assembly fixtures. Passing tests normally remove it; failures, result
+attachments inside it and `MSTEST_TEST_TEMP_DIRECTORY_RETAIN` can retain it.
+That directory lifetime does not stop child work: close handles and join owned
+operations/processes before framework cleanup. Shared class/assembly artifacts
+need a separately owned workspace and lifetime.
 
 Join owned threads and terminate/reap owned child processes before deleting
 their workspace. On **.NET Framework**, MSTest 4 under MTP disables AppDomain

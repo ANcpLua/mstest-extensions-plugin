@@ -63,6 +63,9 @@ For structured output, consider type, exact identity, value, order, duplication,
 required absence and ownership where relevant. Do not mechanically demand all
 of them, add assertion quotas or use assertion diversity as a quality score.
 One precise equality assertion can fully verify a behavior.
+For a configuration-default case, arrange that the override is absent and assert
+the independently specified default value. A non-null endpoint can still be the
+wrong endpoint; a reader lock does not arrange an empty environment.
 
 Required preconditions must fail visibly. For example, a test promising parent
 span preservation must require a parent before comparing its ID. An `if` that

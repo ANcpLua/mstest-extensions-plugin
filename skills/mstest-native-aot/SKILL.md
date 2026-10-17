@@ -32,6 +32,11 @@ providers and optional hosting need evidence for their particular shape.
 A passing plain test does not establish support for a different extension.
 Do not suppress diagnostics globally, replace real tests with easier shapes or
 claim automatic fixture discovery survived when it did not.
+In the inspected 4.5.1 family, experimental `AddMSTestTestClassInjection` uses
+reflection and excludes source-generated/AOT test execution. A managed hosted
+suite can still exercise a separately published Native AOT application; keep
+those artifact claims distinct. See the
+[hosting limits](../mstest-extensions/references/lifecycle.md#hosting-integration-when-available).
 
 Publish for the intended RID and execute that published binary through its
 supported entrypoint. Inspect case identities, outcomes and required negative
