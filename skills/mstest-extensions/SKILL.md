@@ -1,15 +1,12 @@
 ---
 name: mstest-extensions
 description: >-
-  Build native MSTest.Sdk 4.5.1 / MTP 2.5.1 extensions with AllMicrosoft.
-  Plan, explain, implement, review, or troubleshoot reusable MSTest extensions:
-  custom data attributes, combinatorial providers, assertions, execution
-  attributes, conditions, fixtures, and test filters. Use for MSTest extension
-  design, API questions, conceptual planning before a project or package version
-  is selected, shared test support and native execution composition. Concrete
-  test-method edits, report-only test-quality reviews and dedicated Native AOT
-  work have focused sibling skills. Ordinary application
-  changes and running an unchanged test command are outside this workflow.
+  Design, explain, implement or troubleshoot reusable native MSTest extensions:
+  custom data and assertions, execution attributes, policies, fixtures and
+  programmatic filters. Includes extension API questions and planning without
+  a consumer project. Ordinary tests, built-in API questions and project setup
+  belong to mstest-writing-tests; test commands belong to mstest-run-tests.
+  Report-only test-quality reviews and Native AOT have focused sibling skills.
 ---
 
 # MSTest testing and extensions
@@ -40,9 +37,10 @@ signatures or executable claims only when the required evidence exists.
 For implementation or claims about a specific consumer, read its instructions,
 package/SDK pins, target frameworks,
 `global.json`, and existing tests. Identify MSTest.TestFramework, the adapter,
-MSTest.Sdk if used, and whether the entrypoint runs Microsoft.Testing.Platform
-(MTP) or VSTest. Preserve the consumer's versions, runner, and coverage provider
-unless changing them is part of the task. Resolve the actual restored versions
+MSTest.Sdk if used, and confirm native Microsoft.Testing.Platform (MTP).
+Report a different runner without adding a bridge or silently migrating it.
+Preserve native package versions and the coverage provider unless changing them
+is part of the task. Resolve the actual restored versions
 for each target/configuration at the start of a task; a repository name or an
 earlier conversation's version is not current evidence.
 

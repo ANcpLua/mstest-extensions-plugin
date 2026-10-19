@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.4.0 — 2026-10-19
+
+- Add a compact native-MTP execution skill for discovery, filtering, TRX and
+  Microsoft.CodeCoverage, with explicit zero-test and skipped-test checks.
+- Route built-in MSTest API questions and project/CI inclusion to test writing;
+  keep the main skill focused on reusable extensions and their APIs.
+- Share project-discovery guidance and remove duplicated CLI instructions.
+- Keep the six review workflows separate and automatic invocation enabled.
+
 ## 3.3.0 — 2026-10-17
 
 - Match synchronous and asynchronous lifecycle signatures to resource ownership;

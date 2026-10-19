@@ -37,18 +37,12 @@ See [execution](execution.md) and [lifecycle](lifecycle.md).
 
 ## Use the consumer's runner
 
-Identify the runner from project/SDK imports, resolved package assets,
-`global.json`, and the repository's normal test command. `MSTest.Sdk` can configure
-the runner and optional extensions; an existing `Microsoft.NET.Sdk` project can
-use explicit framework/adapter packages. Preserve whichever shape the consumer
-uses unless migration is requested.
-
-MTP and VSTest do not accept identical arguments or configuration. With .NET 10
-MTP mode selected in `global.json`, project selection uses `dotnet test
---project ...`; use the chosen runner's help to resolve discovery, filtering,
-minimum test counts, reporting, and coverage flags. Do not mix VSTest's
-`--collect` or logger syntax with an MTP extension's options. Enable only the
-reporting/coverage extensions the task needs, preserving existing providers.
+Confirm native MTP from project/SDK imports, resolved packages, `global.json`
+and the repository's normal command. Preserve the native project shape and
+provider. Command selection, CLI filters and report options live in
+[mstest-run-tests](../../mstest-run-tests/SKILL.md); project and CI membership
+checks live in [test projects](test-projects.md). A non-native configuration is
+a mismatch to report, not a reason to add a VSTest bridge.
 
 Discovery must find the new cases, but is not execution. Verify passing tests,
 and use a separate process for expected failures. Inspect structured reports for

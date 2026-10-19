@@ -1,6 +1,6 @@
 ---
 name: mstest-writing-tests
-description: "Write, modernize or correct MSTest test methods, data rows, assertions, setup and cleanup. Use for concrete test edits; reusable execution/data extensions belong to mstest-extensions, report-only audits to the relevant review skill."
+description: "Write, correct or explain native MSTest tests, built-in assertions, attributes and lifecycle. Create test projects or repair solution/CI inclusion. Reusable extension design belongs to mstest-extensions; execution-only requests and report-only reviews have focused skills."
 ---
 
 # Write native MSTest tests
@@ -21,6 +21,12 @@ Unit-generation advice to isolate external dependencies applies to units.
 Integration and end-to-end cases retain the real boundary they claim to verify.
 Before adding a new case/project, establish its normal repository discovery and
 CI entrypoint; a standalone green run does not prove that entrypoint finds it.
+For project creation or missing solution/CI inclusion, read
+[project discovery](../mstest-extensions/references/test-projects.md).
+
+For a built-in API or configuration question, read only the relevant reference
+and explain the native behavior; advice alone needs no edits or test run.
+Execution-only requests belong to [mstest-run-tests](../mstest-run-tests/SKILL.md).
 
 Use `[TestMethod]` with native `[DataRow]` for independently selectable constant
 cases; typed `[DynamicData]` fits computed data. Framework expansion preserves

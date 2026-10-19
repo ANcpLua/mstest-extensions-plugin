@@ -1,6 +1,6 @@
 # MSTest Extensions plugin
 
-A portable plugin with eight focused skills for native MSTest testing. Choose the
+A portable plugin with nine focused skills for native MSTest testing. Choose the
 workflow matching the request; references load only when that task needs them.
 The opinionated stack is **MSTest.Sdk 4.5.1 / MSTest 4.5.1**, native
 **Microsoft.Testing.Platform 2.5.1**, **AllMicrosoft** and
@@ -10,7 +10,8 @@ MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 | Skill | Use it for |
 | --- | --- |
 | [mstest-extensions](skills/mstest-extensions/SKILL.md) | Reusable data, assertions, execution composition, policies and fixtures. |
-| [mstest-writing-tests](skills/mstest-writing-tests/SKILL.md) | Concrete test, assertion, row and lifecycle edits. |
+| [mstest-writing-tests](skills/mstest-writing-tests/SKILL.md) | Test edits, built-in API explanations, project creation and CI inclusion. |
+| [mstest-run-tests](skills/mstest-run-tests/SKILL.md) | Native MTP commands, discovery, filters, TRX and coverage. |
 | [mstest-test-review](skills/mstest-test-review/SKILL.md) | Practical report-only correctness and maintainability review. |
 | [mstest-test-smells](skills/mstest-test-smells/SKILL.md) | A requested formal test-smell taxonomy audit. |
 | [mstest-test-value](skills/mstest-test-value/SKILL.md) | Evidence for an identified change and revision. |
@@ -18,7 +19,7 @@ MTP 2.5.1 is the platform version, not the MSTest.Sdk version.
 | [mstest-test-gaps](skills/mstest-test-gaps/SKILL.md) | Caller-visible outcomes the current tests would miss. |
 | [mstest-native-aot](skills/mstest-native-aot/SKILL.md) | Generated invocation, trimming and published Native AOT consumers. |
 
-The package includes 14 shared references, scripts and executable assets.
+The package includes 15 shared references, scripts and executable assets.
 Skills have separate triggers and outputs; they do not load all siblings for
 every test request. This follows the official
 [skill and plugin guidance](https://learn.chatgpt.com/docs/skills-and-plugins?site_locale=en)
@@ -121,6 +122,15 @@ Executable fixtures and scripts are unchanged; their dated runtime evidence
 above is retained. No fresh model-selection or runtime-probe result is claimed
 for this guidance-only release.
 
+Execution/routing checkpoint (3.4.0, 2026-10-19): native MTP on .NET SDK 10.0.402
+discovered and ran both existing fixture rows, producing TRX and Cobertura.
+The coverage file had no classes, so no coverage percentage is claimed.
+The same fixture passed through a `.slnf` referencing `.slnx`. Independent
+description-level review selected the intended skill for 16 requests across
+execution, project inclusion, extensions, reviews and an unrelated request.
+This is not a fresh-host automatic-selection benchmark. No regression tests
+were added; the existing helper checks and packaged-skill validation were used.
+
 The repository-local facts live in [AGENTS.md](AGENTS.md). Validation commands and
 reviewed evidence remain below. Historical model-selection evaluations are
 version-specific and do not establish fresh model behavior for later releases.
@@ -129,7 +139,7 @@ version-specific and do not establish fresh model behavior for later releases.
 
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skills and their references without an MCP server or external
-service dependency. Version 3.3.0 preserves automatic invocation for relevant
+service dependency. Version 3.4.0 preserves automatic invocation for relevant
 MSTest code work. [Fresh-chat evaluations](evals/automatic-discovery/README.md),
 including a [run with memory disabled](evals/automatic-discovery/without-memory.md)
 and the [3.0.0 scenarios](evals/automatic-discovery/3.0.0.md),
@@ -142,7 +152,7 @@ Build an account-upload archive with:
 python3 scripts/package_plugin.py --output /tmp/mstest-extensions.zip
 ```
 
-The archive contains `plugin.json` and all eight directories under `skills/`. Upload it
+The archive contains `plugin.json` and all nine directories under `skills/`. Upload it
 through Plugin Creator, then install the returned plugin in the intended account.
 After confirming installation, remove a duplicate standalone installation of
 the same skill from that host's discovery directory. Keep one active source.
@@ -159,7 +169,7 @@ python3 scripts/install.py
 python3 scripts/install.py --claude
 ```
 
-The default links all eight skills under `~/.agents/skills` for Codex. `--claude`
+The default links all nine skills under `~/.agents/skills` for Codex. `--claude`
 also links them under `~/.claude/skills`. All destinations are checked before any
 link is created; existing unrelated destinations are preserved. Use `--agents-dir` / `--claude-dir` for custom discovery roots.
 
