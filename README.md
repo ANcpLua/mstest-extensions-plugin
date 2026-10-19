@@ -137,6 +137,18 @@ version-specific and do not establish fresh model behavior for later releases.
 
 ## Installation
 
+Install publicly from the [ANcpLua Codex marketplace](https://github.com/ANcpLua/ancplua-openai):
+
+```sh
+codex plugin marketplace add ANcpLua/ancplua-openai
+codex plugin add mstest-extensions@ancplua-openai
+```
+
+This installs the plugin's nine native skills and their supporting files. Start a
+new session after installation. Use one active installation source for this plugin
+to avoid duplicate skill triggers. Marketplace distribution is separate from the
+OpenAI public directory review process.
+
 The preferred ChatGPT/Codex installation is the **MSTest Extensions** plugin,
 which packages the skills and their references without an MCP server or external
 service dependency. Version 3.4.0 preserves automatic invocation for relevant
