@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.4.2 — 2026-10-19
+
+- Preserve SDK integration guidance while ancplua-dotnet delegates MSTest to this plugin.
+- Distinguish native test-application markers from imported `IsTestProject` gates.
+- Name the SDK-managed native coverage extension and qualify class filters.
+- Keep all nine focused skills and their automatic invocation policies.
+
 ## 3.4.1 — 2026-10-19
 
 - Publish privacy and terms pages for the plugin's actual data handling and MIT license.

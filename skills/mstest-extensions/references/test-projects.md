@@ -10,6 +10,13 @@ registration. Add the production `ProjectReference`; shared test helpers have
 their own library boundary. Do not introduce VSTest, duplicate SDK-owned package
 references or a second runner bootstrap.
 
+Inspect evaluated SDK markers before deleting project flags: `UsingMSTestSdk`
+identifies SDK use and `IsTestingPlatformApplication` identifies a native test
+application. MSTest.Sdk 4.5.1 does not itself set `IsTestProject`; an imported SDK
+may gate analyzers or other behavior on an explicit value. Check those imports
+before removing it. A helper library using MSTest.Sdk sets `IsTestApplication=false`
+to avoid becoming a test executable.
+
 Trace membership through the artifact CI actually uses: `.sln`, `.slnx`,
 `.slnf`, an explicit project list or a repository wrapper. A `.slnf` lists
 project paths relative to its underlying solution, so adding only to that

@@ -7,7 +7,7 @@ description: "Choose or execute native-MTP MSTest commands, discover/filter test
 
 Use the repository's test entrypoint and its resolved native MTP configuration.
 The [checked stack](../mstest-extensions/references/native-stack.md) is
-MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and Microsoft.CodeCoverage.
+MSTest.Sdk 4.5.1 / MTP 2.5.1 with `AllMicrosoft` and native Microsoft code coverage.
 Inspect the selected project's SDK, imported settings and restored packages,
 the effective `global.json`, and actual .NET SDK. Native `dotnet test` requires
 .NET 10+ and `test.runner` set to `Microsoft.Testing.Platform`.
@@ -29,13 +29,15 @@ dotnet test --project Tests.csproj --coverage --coverage-output-format cobertura
 ```
 
 Replace sample paths and filters with the actual scope. MSTest's `--filter`
-supports `FullyQualifiedName`, `Name`, `TestCategory` and `Priority`, with
+supports `FullyQualifiedName`, `Name`, `ClassName`, `TestCategory` and `Priority`, with
 `=`, `!=`, `~`, `!~`, `&`, `|` and parentheses. Quote the whole expression;
 verify which methods/data rows matched. Do not borrow another framework's
-filter flags. `--list-tests` proves discovery, not execution.
+filter flags. `ClassName` uses the namespace-qualified class name, for example
+`--filter 'ClassName=Example.Tests.ExampleTests'`.
+`--list-tests` proves discovery, not execution.
 
 Use the selected application's help for extension options. `AllMicrosoft`
-includes TRX reporting and Microsoft.CodeCoverage; an unrecognized option
+includes TRX reporting and `Microsoft.Testing.Extensions.CodeCoverage`; an unrecognized option
 requires checking the actual registered profile/packages. Pass MTP options
 directly, without VSTest `--logger` or `--collect` recipes. Collect reports only
 when requested and confirm the resulting files exist. Before reporting coverage
@@ -56,4 +58,5 @@ counts and requested artifact paths. Leave test corrections and published AOT
 verification to their focused skills.
 
 Sources: [native MTP CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test-mtp)
-and the selected application's version-specific help.
+and [MSTest filters](https://learn.microsoft.com/en-us/dotnet/core/testing/selective-unit-tests?pivots=mstest),
+plus the selected application's version-specific help.

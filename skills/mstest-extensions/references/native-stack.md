@@ -9,7 +9,7 @@ selects another configuration:
 | Framework and adapter | SDK-managed MSTest 4.5.1 |
 | Runner | Native `Microsoft.Testing.Platform` 2.5.1 |
 | Extension profile | `AllMicrosoft` |
-| Coverage | `Microsoft.CodeCoverage`, enabled when coverage is requested |
+| Coverage | SDK-managed `Microsoft.Testing.Extensions.CodeCoverage`, enabled when requested |
 | C# version | Target-framework default; omit a speculative `latest` override |
 
 MTP 2.5.1 is the platform version, not the MSTest.Sdk package version. Native MTP
@@ -41,6 +41,8 @@ manual registration for an extension the SDK already supplies. A custom MTP host
 extension is warranted only for actual host behavior. The profile includes
 extensions; runtime use of reporting or coverage can still require its option.
 Do not assume AllMicrosoft also opts into every experimental or API-only feature.
+The native coverage extension is `Microsoft.Testing.Extensions.CodeCoverage`;
+do not add a VSTest coverage collector or duplicate profile-owned references.
 
 Use constructor/property `TestContext` injection in ordinary tests and the native
 experimental `TestContext.Current` in an executor that needs invocation context.

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mstest-extensions",
-  "version": "3.4.1",
-  "description": "Opinionated native MSTest testing and extensions: MSTest.Sdk 4.5.1, Microsoft.Testing.Platform 2.5.1, AllMicrosoft extensions and Microsoft.CodeCoverage. Use native context, lifecycle, data rows and composition without VSTest or legacy compatibility shims.",
+  "version": "3.4.2",
+  "description": "Opinionated native MSTest testing and extensions: MSTest.Sdk 4.5.1, Microsoft.Testing.Platform 2.5.1, AllMicrosoft extensions and native Microsoft code coverage. Use native context, lifecycle, data rows and composition without VSTest or legacy compatibility shims.",
   "author": {
     "name": "ANcpLua"
   },
@@ -19,7 +19,7 @@
       "interface": {
         "displayName": "MSTest Extensions",
         "shortDescription": "Native MSTest / MTP extensions",
-        "longDescription": "Build and verify tests and reusable extensions with MSTest.Sdk 4.5.1 / MSTest 4.5.1, Microsoft.Testing.Platform 2.5.1, TestingExtensionsProfile=AllMicrosoft and Microsoft.CodeCoverage. Prefer SDK-owned runner registration and lifecycle, native invocation context and data rows, typed selectors and named contract constants. No VSTest or older-version fallback. Native AOT is a separate published-artifact verification path.",
+        "longDescription": "Build and verify tests and reusable extensions with MSTest.Sdk 4.5.1 / MSTest 4.5.1, Microsoft.Testing.Platform 2.5.1, TestingExtensionsProfile=AllMicrosoft and native Microsoft code coverage. Prefer SDK-owned runner registration and lifecycle, native invocation context and data rows, typed selectors and named contract constants. No VSTest or older-version fallback. Native AOT is a separate published-artifact verification path.",
         "developerName": "ALEXANDER ROBERT NACHTMANN",
         "category": "Developer Tools",
         "capabilities": [],
@@ -36,7 +36,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Adds public privacy and terms pages and their submission URLs. All nine native-MTP skills are unchanged from 3.4.0."
+        "release_notes": "Clarifies MSTest.Sdk integration flags, the native coverage extension and namespace-qualified class filters. Keeps all nine focused skills and native-MTP routing."
       }
     }
   },
