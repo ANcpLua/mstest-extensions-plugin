@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.1 — 2026-10-19
+
+- Publish privacy and terms pages for the plugin's actual data handling and MIT license.
+- Include the policies in the package and configure their public submission URLs.
+- Keep all nine skills and their native-MTP behavior unchanged.
+
 ## 3.4.0 — 2026-10-19
 
 - Include MIT licensing, a public-listing icon and publisher metadata.

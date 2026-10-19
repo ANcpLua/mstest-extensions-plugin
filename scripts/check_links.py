@@ -4,7 +4,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
 checked = 0
-for document in [root / "README.md", root / "AGENTS.md", *(root / "skills").rglob("*.md")]:
+for document in [root / "README.md", root / "AGENTS.md", root / "PRIVACY.md", root / "TERMS.md", *(root / "skills").rglob("*.md")]:
     for target in re.findall(r"\]\(([^)]+)\)", document.read_text()):
         if "://" in target or target.startswith("#"):
             continue

@@ -24,8 +24,9 @@ def main():
     if output.is_relative_to(root):
         raise SystemExit("Write the archive outside the plugin directory")
     files = [root / "plugin.json"]
-    if (root / "LICENSE").is_file():
-        files.append(root / "LICENSE")
+    for document in ("LICENSE", "PRIVACY.md", "TERMS.md"):
+        if (root / document).is_file():
+            files.append(root / document)
     for asset in sorted((root / "assets").rglob("*")):
         if asset.is_symlink():
             raise SystemExit(f"Symlinks cannot be packaged: {asset}")

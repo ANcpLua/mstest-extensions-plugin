@@ -272,4 +272,5 @@ always begin with the consumer's resolved API.
 
 ## License
 
-MIT. See [LICENSE](LICENSE). The package includes its license and app icon.
+MIT. See [LICENSE](LICENSE). The package includes its license, app icon,
+[privacy policy](PRIVACY.md) and [terms of use](TERMS.md).

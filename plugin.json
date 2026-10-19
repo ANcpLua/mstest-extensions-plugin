@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mstest-extensions",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "Opinionated native MSTest testing and extensions: MSTest.Sdk 4.5.1, Microsoft.Testing.Platform 2.5.1, AllMicrosoft extensions and Microsoft.CodeCoverage. Use native context, lifecycle, data rows and composition without VSTest or legacy compatibility shims.",
   "author": {
     "name": "ANcpLua"
@@ -21,20 +21,22 @@
         "shortDescription": "Native MSTest / MTP extensions",
         "longDescription": "Build and verify tests and reusable extensions with MSTest.Sdk 4.5.1 / MSTest 4.5.1, Microsoft.Testing.Platform 2.5.1, TestingExtensionsProfile=AllMicrosoft and Microsoft.CodeCoverage. Prefer SDK-owned runner registration and lifecycle, native invocation context and data rows, typed selectors and named contract constants. No VSTest or older-version fallback. Native AOT is a separate published-artifact verification path.",
         "developerName": "ALEXANDER ROBERT NACHTMANN",
-        "category": "Productivity",
+        "category": "Developer Tools",
         "capabilities": [],
         "defaultPrompt": "Use the MSTest Extensions skill to implement and verify a testing capability in this project's installed MSTest version.",
         "websiteURL": "https://github.com/ANcpLua/mstest-extensions-plugin",
         "supportURL": "https://github.com/ANcpLua/mstest-extensions-plugin/issues",
         "logo": "./assets/icon.png",
-        "composerIcon": "./assets/icon.png"
+        "composerIcon": "./assets/icon.png",
+        "privacyPolicyURL": "https://github.com/ANcpLua/mstest-extensions-plugin/blob/main/PRIVACY.md",
+        "termsOfServiceURL": "https://github.com/ANcpLua/mstest-extensions-plugin/blob/main/TERMS.md"
       },
       "review": {
         "commerce": false
       },
       "publication": {
         "countries": [],
-        "release_notes": "Adds native-MTP test execution, discovery, filters, TRX and coverage. Clarifies routing for built-in MSTest APIs, reusable extensions and project/CI inclusion."
+        "release_notes": "Adds public privacy and terms pages and their submission URLs. All nine native-MTP skills are unchanged from 3.4.0."
       }
     }
   },
