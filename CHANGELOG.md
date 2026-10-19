@@ -2,6 +2,7 @@
 
 ## 3.4.0 — 2026-10-19
 
+- Include MIT licensing, a public-listing icon and publisher metadata.
 - Add a compact native-MTP execution skill for discovery, filtering, TRX and
   Microsoft.CodeCoverage, with explicit zero-test and skipped-test checks.
 - Route built-in MSTest API questions and project/CI inclusion to test writing;

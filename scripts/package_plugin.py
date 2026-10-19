@@ -24,6 +24,13 @@ def main():
     if output.is_relative_to(root):
         raise SystemExit("Write the archive outside the plugin directory")
     files = [root / "plugin.json"]
+    if (root / "LICENSE").is_file():
+        files.append(root / "LICENSE")
+    for asset in sorted((root / "assets").rglob("*")):
+        if asset.is_symlink():
+            raise SystemExit(f"Symlinks cannot be packaged: {asset}")
+        if asset.is_file():
+            files.append(asset)
     for path in sorted(skills_root.rglob("*")):
         if path.is_symlink():
             raise SystemExit(f"Symlinks cannot be packaged: {path}")

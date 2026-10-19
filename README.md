@@ -269,3 +269,7 @@ guided the update; the sample suite on that branch still pins 4.4.1, so publishe
 [microsoft/testfx](https://github.com/microsoft/testfx), with per-package commits
 recorded in the version notes. Portable [source routes](skills/mstest-extensions/references/sources.md)
 always begin with the consumer's resolved API.
+
+## License
+
+MIT. See [LICENSE](LICENSE). The package includes its license and app icon.
