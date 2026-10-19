@@ -1,10 +1,10 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mstest-extensions",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "Opinionated native MSTest testing and extensions: MSTest.Sdk 4.5.1, Microsoft.Testing.Platform 2.5.1, AllMicrosoft extensions and native Microsoft code coverage. Use native context, lifecycle, data rows and composition without VSTest or legacy compatibility shims.",
   "author": {
-    "name": "ANcpLua"
+    "name": "Alexander Nachtmann"
   },
   "repository": "https://github.com/ANcpLua/mstest-extensions-plugin",
   "keywords": [
@@ -20,7 +20,7 @@
         "displayName": "MSTest Extensions",
         "shortDescription": "Native MSTest / MTP extensions",
         "longDescription": "Build and verify tests and reusable extensions with MSTest.Sdk 4.5.1 / MSTest 4.5.1, Microsoft.Testing.Platform 2.5.1, TestingExtensionsProfile=AllMicrosoft and native Microsoft code coverage. Prefer SDK-owned runner registration and lifecycle, native invocation context and data rows, typed selectors and named contract constants. No VSTest or older-version fallback. Native AOT is a separate published-artifact verification path.",
-        "developerName": "ALEXANDER ROBERT NACHTMANN",
+        "developerName": "Alexander Nachtmann",
         "category": "Developer Tools",
         "capabilities": [],
         "defaultPrompt": "Use the MSTest Extensions skill to implement and verify a testing capability in this project's installed MSTest version.",
@@ -36,7 +36,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Clarifies MSTest.Sdk integration flags, the native coverage extension and namespace-qualified class filters. Keeps all nine focused skills and native-MTP routing."
+        "release_notes": "Normalize the displayed developer name to Alexander Nachtmann. The nine skills and their supporting files are unchanged."
       }
     }
   },

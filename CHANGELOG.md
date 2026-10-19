@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.4.3 — 2026-10-19
+
+- Display Alexander Nachtmann consistently as the developer and maintainer.
+- Preserve all nine skills and existing website, privacy and terms links.
+
 ## 3.4.2 — 2026-10-19
 
 - Preserve SDK integration guidance while ancplua-dotnet delegates MSTest to this plugin.

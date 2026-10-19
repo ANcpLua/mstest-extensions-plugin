@@ -2,7 +2,7 @@
 
 Effective date: 19 October 2026
 
-MSTest Extensions is maintained by Alexander Robert Nachtmann (ANcpLua). These
+MSTest Extensions is maintained by Alexander Nachtmann (ANcpLua). These
 terms describe the plugin, its distribution and support. They do not narrow the
 rights granted by its [MIT License](LICENSE).
 
