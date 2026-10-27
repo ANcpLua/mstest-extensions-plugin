@@ -1,3 +1,9 @@
+# Source moved to ancplua-dotnet
+
+This repository is archived. The maintained source, tests and workflows are in [mstest-extensions](https://github.com/ANcpLua/ancplua-dotnet/tree/main/packages/mstest-extensions). The previous README below is historical; use the active repository for installation and verification.
+
+---
+
 # MSTest Extensions plugin
 
 A portable plugin with nine focused skills for native MSTest testing. Choose the
