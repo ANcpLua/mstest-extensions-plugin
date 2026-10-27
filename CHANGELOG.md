@@ -55,21 +55,21 @@
 
 ## 3.2.2 — 2026-10-17
 
-- Move Qyl-specific producer, receiver and project-boundary guidance out of the
+- Move project-specific producer, receiver and project-boundary guidance out of the
   portable plugin and into the consuming repository's local skill.
 - Retain eight generic MSTest skills, including Native AOT and the six adapted
   test-quality workflows. Keep the unit-agent isolation advice scoped to units.
-- Retain general telemetry contract lessons without a Qyl dependency or naming
+- Retain general telemetry contract lessons without a product dependency or naming
   a particular implementation in portable guidance.
 
 ## 3.2.1 — 2026-10-17
 
 - Split the six adapted test-writing/review workflows into focused skills using
   native MSTest 4.5.1 / MTP 2.5.1 semantics and shared API references.
-- Add dedicated Native AOT and Qyl telemetry skills alongside extension design.
+- Add dedicated Native AOT and project-specific telemetry skills alongside extension design.
 - Generalize captured-field lessons into likely agent failures and distinguishing
   checks, independent of the original phase plan and scenario names.
-- Use Qyl's public host registration for application scenarios, preserving
+- Use the consuming project's public host registration for application scenarios, preserving
   legitimate internal provider-owned SDK instrumentation.
 - Package and optionally link every skill, checking all install destinations
   before creating any link. Preserve plugin identity and invocation settings.

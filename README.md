@@ -102,7 +102,7 @@ created. The native runner/hosting/AOT fixtures are unchanged from the passing
 evaluation; historical evaluations remain evidence for their recorded versions.
 
 Scope correction (3.2.2): the portable package contains eight generic skills and
-43 files, with 101 local links checked. Qyl-specific registration, packages and
+43 files, with 101 local links checked. Project-specific registration, packages and
 the distinctions among its four projects now live in the consuming repository's
 local skill. The unit-generation isolation advice stays scoped to unit tests.
 
